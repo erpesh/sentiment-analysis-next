@@ -6,6 +6,13 @@ export type Json =
   | { [key: string]: Json }
   | Json[]
 
+interface Comment {
+  id: number,
+  created_at: string,
+  text: string,
+  rating: number
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -39,7 +46,8 @@ export interface Database {
         Row: {
           id: number,
           created_at: string,
-          name: string
+          name: string,
+          comments: Comment[]
         }
         Insert: {
           id: number,
@@ -58,18 +66,21 @@ export interface Database {
           created_at: string,
           text: string,
           product_id: number
+          rating: number
         }
         Insert: {
-          id: number,
+          id?: number | null,
           created_at?: string | null
-          text?: string | null
-          product_id?: number | null
+          text: string
+          product_id: number
+          rating: number
         }
         Update: {
           id?: number
           created_at?: string | null
           text?: string | null
           product_id?: number | null
+          rating?: number | null
         }
       }
     }

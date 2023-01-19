@@ -1,63 +1,44 @@
 import {useRouter} from "next/router";
 import {Database} from "../../utils/database.types";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
-type TProduct = Database['public']['Tables']['products']['Row']
+type TProduct = Database['public']['Tables']['products']['Row'];
 export default function Product() {
 
-  // const supabase = useSupabaseClient<Database>()
   const router = useRouter();
   const {productId} = router.query;
 
-  // const [loading, setLoading] = useState(true)
-  // const user = useUser()
-
   const [product, setProduct] = useState<TProduct | null>(null);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
-  // const postData = async () => {
-  //   const response = await fetch("/api/product", {
-  //     method: "POST",
-  //     body: JSON.stringify({id: 21, created_at: "124", name: "name"}),
-  //   });
-  //   return response.json();
-  // }
-
-  // const getProduct = async () => {
-  //   try {
-  //     setLoading(true)
-  //     // if (!user) throw new Error('No user')
-  //     console.log("/api/products/" + productId);
-  //     const response = await fetch("/api/products/" + productId, {
-  //       method: "POST",
-  //       body: JSON.stringify({id: 21, created_at: "124", name: "name"}),
-  //     });
-  //     // const data = response.json();
-  //     // if (error && status !== 406) {
-  //     //   throw error
-  //     // }
-  //     return response;
-  //
-  //   }
-  //   finally {
-  //     setLoading(false)
-  //   }
-  // }
+  async function addComment() {
+    const res = await fetch(`/api/products/${productId}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          text: comment,
+          product_id: Number(productId),
+          rating: rating
+        })
+      });
+    const [json] = await res.json();
+    setProduct({...product, comments: [...product!.comments, json]} as TProduct)
+  }
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch('/api/products/2')
-        // console.log(await res.text())
-        const json = await res.json()
-        setProduct(json)
-      }
-      catch(error) {
-        console.log(error)
+        const res = await fetch(`/api/products/${productId}`);
+        const json = await res.json();
+        setProduct(json);
+      } catch (error) {
+        console.log(error);
       }
     }
 
     fetchData()
-  }, [])
+  }, [productId])
 
   if (!product) {
     return <p>Loading...</p>
@@ -68,6 +49,26 @@ export default function Product() {
       <h2>{product.name}</h2>
       <p>{product.id}</p>
       <p>{product.created_at}</p>
+      {product.comments.map((comment) => {
+        return <ul key={comment.id}>
+          <li>{comment.created_at}</li>
+          <li>{comment.text}</li>
+          <li>{comment.rating}</li>
+        </ul>
+      })}
+      <ul style={{display: "flex", gap: "1rem"}}>
+        {[1, 2, 3, 4, 5].map(num => {
+          return <div
+            key={num}
+            onClick={() => setRating(num)}
+            style={{color: rating === num ? "red" : "black", cursor: "pointer"}}
+          >
+            {num}
+          </div>
+        })}
+      </ul>
+      <input type={"text"} onChange={(e) => setComment(e.currentTarget.value)}/>
+      <button onClick={addComment}>Comment</button>
     </div>
   )
 }

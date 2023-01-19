@@ -4,7 +4,6 @@ export default function Footer({}) {
       <div className=""></div>
       <div className="">
         <span className="text-sm">Powered by</span>
-        <img src="logo.png" />
       </div>
       <div className="flex-end flex">
         <a
