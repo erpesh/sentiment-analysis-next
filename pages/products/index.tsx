@@ -1,8 +1,9 @@
 import {Database} from "../../utils/database.types";
 import {useEffect, useState} from "react";
+import Product from "../../components/Product";
 
 type TProduct = Database['public']['Tables']['products']['Row'];
-export default function Product() {
+export default function Products() {
 
   const [products, setProducts] = useState<TProduct[]>([]);
 
@@ -28,11 +29,7 @@ export default function Product() {
   return (
     <>
       {products.map((item: TProduct) => {
-        return <div key={item.created_at}>
-          <h2>{item.name}</h2>
-          <p>{item.id}</p>
-          <p>{item.created_at}</p>
-        </div>
+        return <Product key={item.id} product={item}/>
       })}
     </>
   )

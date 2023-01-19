@@ -1,7 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {supabase} from "../../../utils/supabase";
-import {Database} from "../../../utils/database.types";
+
+function sentimentAnalysis(comment: string){
+
+}
 
 export default async (
   req: NextApiRequest,
@@ -23,7 +26,7 @@ export default async (
   } else {
     const {data, error, status} = await supabase
       .from('products')
-      .select(`id, created_at, name, comments(*)`)
+      .select(`id, created_at, name, comments(id, created_at, text, rating)`)
       .eq('id', productId)
       .single()
     res.status(200).json(data);

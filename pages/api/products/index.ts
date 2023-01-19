@@ -8,6 +8,6 @@ export default async (
 ) => {
   const {data, error, status} = await supabase
     .from('products')
-    .select(`id, created_at, name`)
+    .select(`id, created_at, name, comments(id, created_at, text, rating)`)
   res.status(200).json(data);
 }
