@@ -49,16 +49,16 @@ export interface Database {
           name: string,
           comments: Comment[]
         }
-        Insert: {
-          id: number,
-          created_at?: string | null
-          name?: string | null
-        }
-        Update: {
-          id?: number
-          created_at?: string | null
-          name?: string | null
-        }
+        // Insert: {
+        //   id: number,
+        //   created_at?: string | null
+        //   name?: string | null
+        // }
+        // Update: {
+        //   id?: number
+        //   created_at?: string | null
+        //   name?: string | null
+        // }
       },
       comments: {
         Row: {
@@ -68,19 +68,26 @@ export interface Database {
           product_id: number
           rating: number
         }
-        Insert: {
-          id?: number | null,
-          created_at?: string | null
-          text: string
-          product_id: number
-          rating: number
-        }
-        Update: {
-          id?: number
-          created_at?: string | null
-          text?: string | null
-          product_id?: number | null
-          rating?: number | null
+        // Insert: {
+        //   id?: number | null,
+        //   created_at?: string | null
+        //   text: string
+        //   product_id: number
+        //   rating: number
+        // }
+        // Update: {
+        //   id?: number
+        //   created_at?: string | null
+        //   text?: string | null
+        //   product_id?: number | null
+        //   rating?: number | null
+        // }
+      }
+      keywords: {
+        Row: {
+          id: number,
+          keyword: string,
+          value: number
         }
       }
     }
