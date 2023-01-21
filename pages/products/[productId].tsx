@@ -22,7 +22,7 @@ export default function Product() {
           rating: rating
         })
       });
-    const [json] = await res.json();
+    const json = await res.json();
     setProduct({...product, comments: [...product!.comments, json]} as TProduct)
   }
 
