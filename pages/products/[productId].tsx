@@ -13,7 +13,7 @@ export default function Product() {
   const [comment, setComment] = useState("");
 
   async function addComment() {
-    const res = await fetch(`/api/products/${productId}`,
+    const res = await fetch(`/api/comments`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -23,7 +23,8 @@ export default function Product() {
         })
       });
     const json = await res.json();
-    setProduct({...product, comments: [...product!.comments, json]} as TProduct)
+    console.log(json);
+    setProduct(json)
   }
 
   useEffect(() => {

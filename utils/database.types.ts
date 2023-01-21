@@ -47,7 +47,8 @@ export interface Database {
           id: number,
           created_at: string,
           name: string,
-          comments: Comment[]
+          comments: Comment[],
+          rating: number
         }
         // Insert: {
         //   id: number,
