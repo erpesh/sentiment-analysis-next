@@ -14,6 +14,17 @@ export default function Product() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
+  async function deleteComment(commentId: number){
+    if (!user) throw new Error("no user");
+    const res = await fetch(`/api/comments/${commentId}`,
+      {
+        method: "DELETE",
+      });
+    const status = await res.json();
+    console.log(await status)
+    // setProduct(json)
+  }
+
   async function addComment() {
     if (!user) throw new Error("no user");
     const res = await fetch(`/api/comments`,
@@ -27,7 +38,6 @@ export default function Product() {
         })
       });
     const json = await res.json();
-    console.log(json);
     setProduct(json)
   }
 
@@ -60,7 +70,7 @@ export default function Product() {
             <li>{comment.text}</li>
             <li>{comment.rating}</li>
           </ul>
-          <button>Delete</button>
+          <button onClick={() => deleteComment(comment.id)}>Delete</button>
         </div>
       })}
       <ul style={{display: "flex", gap: "1rem"}}>

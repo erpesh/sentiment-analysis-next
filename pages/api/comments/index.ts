@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {supabase} from "../../utils/supabase";
-import {Database} from "../../utils/database.types";
+import {supabase} from "../../../utils/supabase";
+import {Database} from "../../../utils/database.types";
 
 type TKeyword = Database["public"]["Tables"]["keywords"]["Row"]
 type TProduct = Database["public"]["Tables"]["products"]["Row"]
