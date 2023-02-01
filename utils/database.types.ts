@@ -10,7 +10,8 @@ export interface Comment {
   id: number,
   created_at: string,
   text: string,
-  rating: number
+  rating: number,
+  author: Database["public"]["Tables"]["profiles"]["Row"]
 }
 
 export interface Database {

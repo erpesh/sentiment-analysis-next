@@ -9,7 +9,8 @@ export default function Product() {
     rating,
     setRating,
     setComment,
-    addComment
+    addComment,
+    userId
   } = useProductOperations();
 
   if (!product) {
@@ -24,11 +25,11 @@ export default function Product() {
       {product.comments?.map((comment) => {
         return <div key={comment.id}>
           <ul>
-            <li>{comment.created_at}</li>
+            <li>{comment.author.full_name}</li>
             <li>{comment.text}</li>
             <li>{comment.rating}</li>
           </ul>
-          <button onClick={() => deleteComment(comment.id)}>Delete</button>
+          {comment.author.id === userId && <button onClick={() => deleteComment(comment.id)}>Delete</button>}
         </div>
       })}
       <ul style={{display: "flex", gap: "1rem"}}>

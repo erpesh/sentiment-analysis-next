@@ -11,7 +11,8 @@ export interface TProductOperations {
   rating: number,
   setRating: (rating: number) => void,
   setComment: (comment: string) => void,
-  addComment: () => void
+  addComment: () => void,
+  userId: string
 }
 
 const useProductOperations = () => {
@@ -22,6 +23,16 @@ const useProductOperations = () => {
   const [product, setProduct] = useState<TProduct | null>(null);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+
+  async function fetchData() {
+    try {
+      const res = await fetch(`/api/products/${productId}`);
+      const [json] = await res.json();
+      setProduct(json);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function deleteComment(commentId: number){
     if (!user) throw new Error("no user");
@@ -52,26 +63,12 @@ const useProductOperations = () => {
         method: "POST",
         body: JSON.stringify(newComment)
       });
-    const json = await res.json();
+    // const json = await res.json();
 
-    let _product = {...product};
-    if (_product.comments){
-      _product.comments.push(json);
-      // @ts-ignore
-      setProduct(_product);
-    }
+    fetchData()
   }
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch(`/api/products/${productId}`);
-        const [json] = await res.json();
-        setProduct(json);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     fetchData()
   }, [productId])
 
@@ -81,7 +78,8 @@ const useProductOperations = () => {
     rating,
     setRating,
     setComment,
-    addComment
+    addComment,
+    userId: user?.id
   }
 }
 
