@@ -1,58 +1,16 @@
-import {useRouter} from "next/router";
-import {Database} from "../../utils/database.types";
-import React, {useEffect, useState} from "react";
-import {useUser} from "@supabase/auth-helpers-react";
+import React from "react";
+import useProductOperations from "../../hooks/useProductOperations";
 
-type TProduct = Database['public']['Tables']['products']['Row'];
 export default function Product() {
 
-  const user = useUser();
-  const router = useRouter();
-  const {productId} = router.query;
-
-  const [product, setProduct] = useState<TProduct | null>(null);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-
-  async function deleteComment(commentId: number){
-    if (!user) throw new Error("no user");
-    const res = await fetch(`/api/comments/${commentId}`,
-      {
-        method: "DELETE",
-      });
-    const status = await res.json();
-    console.log(await status)
-    // setProduct(json)
-  }
-
-  async function addComment() {
-    if (!user) throw new Error("no user");
-    const res = await fetch(`/api/comments`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          text: comment,
-          product_id: Number(productId),
-          rating: rating,
-          user_id: user.id
-        })
-      });
-    const json = await res.json();
-    setProduct(json)
-  }
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch(`/api/products/${productId}`);
-        const json = await res.json();
-        setProduct(json);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData()
-  }, [productId])
+  const {
+    product,
+    deleteComment,
+    rating,
+    setRating,
+    setComment,
+    addComment
+  } = useProductOperations();
 
   if (!product) {
     return <p>Loading...</p>
@@ -63,7 +21,7 @@ export default function Product() {
       <h2>{product.name}</h2>
       <p>{product.id}</p>
       <p>{product.created_at}</p>
-      {product.comments.map((comment) => {
+      {product.comments?.map((comment) => {
         return <div key={comment.id}>
           <ul>
             <li>{comment.created_at}</li>

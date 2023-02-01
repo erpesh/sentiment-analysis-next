@@ -8,10 +8,10 @@ export default async (
 ) => {
   const productId = req.query.productId;
 
-  const {data, error, status} = await supabase
+  const { data, error, status } = await supabase
     .from('products')
-    .select(`id, created_at, name, rating, comments(id, created_at, text, rating)`)
+    .select(`id, created_at, name, comments(id, created_at, text, rating)`)
     .eq('id', productId)
-    .single()
+
   res.status(200).json(data);
 }

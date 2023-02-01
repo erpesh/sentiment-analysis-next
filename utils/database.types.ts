@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json }
   | Json[]
 
-interface Comment {
+export interface Comment {
   id: number,
   created_at: string,
   text: string,
@@ -48,7 +48,6 @@ export interface Database {
           created_at: string,
           name: string,
           comments: Comment[],
-          rating: number,
         }
         // Insert: {
         //   id: number,

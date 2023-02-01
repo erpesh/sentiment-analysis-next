@@ -39,8 +39,9 @@ const updateProductRating = async (product_id: number, rating: number) => {
     .from("products")
     .update({rating: rating})
     .eq("id", 2)
-    .select("id, created_at, name, rating, comments(id, created_at, text, rating)")
+    .select("id, created_at, name, comments(id, created_at, text, rating)")
     .single();
+  console.log(response);
   return response.data as TProduct;
 }
 
@@ -55,16 +56,16 @@ export default async (
       const {data, error, status} = await supabase
         .from('comments')
         .insert(body)
-        .select(`*`)
+        .select(`id, created_at, text, rating`)
         .single();
 
-      const keywords = await getKeywords();
+      // const keywords = await getKeywords();
 
       // calculate sentiment rating
-      const sentimentRating = sentimentAnalysis(data.text, keywords);
-      const product = await updateProductRating(body.product_id, sentimentRating);
+      // const sentimentRating = sentimentAnalysis(data.text, keywords);
+      // const product = await updateProductRating(body.product_id, sentimentRating);
 
-      res.status(200).json(product);
+      res.status(200).json(data);
     } catch (e: any) {
       res.status(500).json(e.message);
     }
