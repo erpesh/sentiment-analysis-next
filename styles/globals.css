@@ -43,7 +43,7 @@ header {
 nav {
   margin: 0 auto;
   display: flex;
-  max-width: 1200px;
+  max-width: 60rem;
   justify-content: space-between;
 }
 header > nav > div > span {
@@ -52,12 +52,56 @@ header > nav > div > span {
   padding-top: 2px;
   padding-bottom: 2px;
 }
-.secondPart>span:first-child {
-  padding-right: 8px;
+header > nav > div > span > a {
+  text-decoration: none;
+  color: var(--color-white);
 }
-.secondPart>span:last-child {
-  padding-left: 8px;
-  border-left: 1.5px solid var(--color-white);
+.firstPart > span:not(:last-child){
+  padding-right: 1rem;
+}
+.secondPart>span:first-child {
+  padding-right: .375rem;
+}
+.secondPart>span:not(:last-child):after {
+  content:'   |';
+}
+
+.addKeyword {
+  /*display: flex;*/
+}
+.addKeyword > div {
+  display: flex;
+}
+/*.addKeyword > input {*/
+/*  padding: 3px;*/
+/*}*/
+.keywordInputs {
+  margin-bottom: .75rem;
+}
+.keywordInputs > input:first-child {
+  margin-right: 2rem;
+}
+.keywordItem {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid black;
+}
+.keywordValue{
+  width: 60rem;
+
+  display: flex;
+  justify-content: space-between;
+}
+.keywordValuesItem {
+  display: flex;
+  flex-direction: column;
+}
+.keywordLabel {
+  color: #656565;
+  font-size: 13px;
+}
+.keywordData {
+ font-size: 18px;
 }
 /* Grid */
 

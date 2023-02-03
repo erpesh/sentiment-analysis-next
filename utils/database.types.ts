@@ -85,7 +85,7 @@ export interface Database {
         Row: {
           id: number,
           keyword: string,
-          value: number
+          weight: number
         }
       }
     }

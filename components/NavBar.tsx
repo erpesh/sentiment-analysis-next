@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSupabaseClient, useUser} from "@supabase/auth-helpers-react";
 import {Database} from "../utils/database.types";
+import Link from "next/link";
 
 type TUser = Database["public"]["Tables"]["users"]["Row"]
 
@@ -17,7 +18,6 @@ const NavBar = () => {
     try {
 
       if (!user) return;
-      console.log("sfafaf", user.id);
       let { data, error, status } = await supabase
         .from('users')
         .select(`*`)
@@ -45,14 +45,14 @@ const NavBar = () => {
         <div className={"firstPart"}>
           <span>Search</span>
           {profile && profile.isAdmin ? <>
-            <span>Keywords</span>
+            <span><Link href={"/keywords"}>Keywords</Link></span>
             <span>Add Product</span>
           </> : <></>}
         </div>
         <div className={"secondPart"}>
           {user && profile ? <>
           <span>
-            {profile.username}
+            <Link href={"/"}>{profile.username}</Link>
           </span>
             <span onClick={() => supabase.auth.signOut()}>Log out</span>
           </> : <>

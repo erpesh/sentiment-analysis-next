@@ -14,7 +14,7 @@ function sentimentAnalysis(comment: string, keywords: TKeyword[]) {
   // Iterate through the keywords
   for (let i = 0; i < keywords.length; i++) {
     let keyword = keywords[i].keyword;
-    let value = keywords[i].value;
+    let value = keywords[i].weight;
 
     // Check if the keyword is present in the comment
     if (commentCopy.indexOf(keyword) !== -1) {
