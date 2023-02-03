@@ -10,7 +10,7 @@ export default async (
 
   const { data, error, status } = await supabase
     .from('products')
-    .select(`id, created_at, name, comments(id, created_at, text, rating, author:profiles(*))`)
+    .select(`id, created_at, name, comments(id, created_at, text, rating, author:users(*))`)
     .eq('id', productId)
 
   res.status(200).json(data);

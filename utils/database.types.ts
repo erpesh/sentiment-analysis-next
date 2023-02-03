@@ -11,36 +11,33 @@ export interface Comment {
   created_at: string,
   text: string,
   rating: number,
-  author: Database["public"]["Tables"]["profiles"]["Row"]
+  author: Database["public"]["Tables"]["users"]["Row"]
 }
 
 export interface Database {
   public: {
     Tables: {
-      profiles: {
+      users: {
         Row: {
           id: string
           updated_at: string | null
           username: string | null
           full_name: string | null
-          avatar_url: string | null
-          website: string | null
+          isAdmin: boolean
         }
         Insert: {
           id: string
           updated_at?: string | null
           username?: string | null
           full_name?: string | null
-          avatar_url?: string | null
-          website?: string | null
+          isAdmin?: boolean | null
         }
         Update: {
           id?: string
           updated_at?: string | null
           username?: string | null
           full_name?: string | null
-          avatar_url?: string | null
-          website?: string | null
+          isAdmin?: boolean | null
         }
       },
       products: {

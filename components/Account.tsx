@@ -2,15 +2,13 @@ import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient, Session } from '@supabase/auth-helpers-react'
 
 import { Database } from '../utils/database.types'
-type Profiles = Database['public']['Tables']['profiles']['Row']
+type Users = Database['public']['Tables']['users']['Row']
 
 export default function Account({ session }: { session: Session }) {
   const supabase = useSupabaseClient<Database>()
   const user = useUser()
   const [loading, setLoading] = useState(true)
-  const [username, setUsername] = useState<Profiles['username']>(null)
-  const [website, setWebsite] = useState<Profiles['website']>(null)
-  const [avatar_url, setAvatarUrl] = useState<Profiles['avatar_url']>(null)
+  const [username, setUsername] = useState<Users['username']>(null)
 
   useEffect(() => {
     getProfile()
@@ -22,8 +20,8 @@ export default function Account({ session }: { session: Session }) {
       if (!user) throw new Error('No user')
 
       let { data, error, status } = await supabase
-        .from('profiles')
-        .select(`username, website, avatar_url`)
+        .from('users')
+        .select(`username`)
         .eq('id', user.id)
         .single()
 
@@ -33,8 +31,6 @@ export default function Account({ session }: { session: Session }) {
 
       if (data) {
         setUsername(data.username)
-        setWebsite(data.website)
-        setAvatarUrl(data.avatar_url)
       }
     } catch (error) {
       alert('Error loading user data!')
@@ -44,14 +40,8 @@ export default function Account({ session }: { session: Session }) {
     }
   }
 
-  async function updateProfile({
-                                 username,
-                                 website,
-                                 avatar_url,
-                               }: {
-    username: Profiles['username']
-    website: Profiles['website']
-    avatar_url: Profiles['avatar_url']
+  async function updateProfile({username,}: {
+    username: Users['username']
   }) {
     try {
       setLoading(true)
@@ -60,12 +50,10 @@ export default function Account({ session }: { session: Session }) {
       const updates = {
         id: user.id,
         username,
-        website,
-        avatar_url,
         updated_at: new Date().toISOString(),
       }
 
-      let { error } = await supabase.from('profiles').upsert(updates)
+      let { error } = await supabase.from('users').upsert(updates)
       if (error) throw error
       alert('Profile updated!')
     } catch (error) {
@@ -91,20 +79,11 @@ export default function Account({ session }: { session: Session }) {
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="website"
-          value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div>
 
       <div>
         <button
           className="button primary block"
-          onClick={() => updateProfile({ username, website, avatar_url })}
+          onClick={() => updateProfile({ username })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
