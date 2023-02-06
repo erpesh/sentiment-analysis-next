@@ -1,43 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useSupabaseClient, useUser} from "@supabase/auth-helpers-react";
 import {Database} from "../utils/database.types";
 import Link from "next/link";
-
-type TUser = Database["public"]["Tables"]["users"]["Row"]
+import useProfile from "../hooks/useProfile";
 
 const NavBar = () => {
   const supabase = useSupabaseClient<Database>()
   const user = useUser();
-  const [profile, setProfile] = useState<TUser | null>(null);
-
-  useEffect(() => {
-    getProfile()
-  }, [user])
-
-  async function getProfile() {
-    try {
-
-      if (!user) return;
-      let { data, error, status } = await supabase
-        .from('users')
-        .select(`*`)
-        .eq('id', user.id)
-        .single()
-
-      if (error && status !== 406) {
-        throw error
-      }
-
-      if (data) {
-        setProfile(data);
-      }
-    } catch (error) {
-      alert('Error loading user data!')
-      console.log(error)
-    }
-  }
-
-  if (!user) return <></>
+  const profile = useProfile();
 
   return (
     <header>
@@ -56,7 +26,7 @@ const NavBar = () => {
           </span>
             <span onClick={() => supabase.auth.signOut()}>Log out</span>
           </> : <>
-            <span>Log in</span>
+            <span><Link href={"/"}>Log in</Link></span>
             <span>Register</span>
           </>}
         </div>
