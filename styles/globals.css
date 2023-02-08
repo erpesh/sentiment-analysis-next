@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+
 html,
 body {
   --custom-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
@@ -65,32 +67,39 @@ header > nav > div > span > a {
 .secondPart>span:not(:last-child):after {
   content:'   |';
 }
-
-.addKeyword {
-  /*display: flex;*/
+.keywordsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.searchKeywords{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 .addKeyword > div {
   display: flex;
 }
-/*.addKeyword > input {*/
-/*  padding: 3px;*/
-/*}*/
 .keywordInputs {
   margin-bottom: .75rem;
+  gap: 1rem;
 }
 .keywordInputs > input:first-child {
   margin-right: 2rem;
 }
+.keywordsList{
+  display: grid;
+  grid-template-columns: auto auto;
+  width: 100%;
+}
 .keywordItem {
   display: flex;
-  justify-content: space-between;
-  border: 2px solid black;
+  width: 100%;
 }
 .keywordValue{
-  width: 60rem;
-
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 .keywordValuesItem {
   display: flex;
@@ -103,7 +112,41 @@ header > nav > div > span > a {
 .keywordData {
  font-size: 18px;
 }
-
+.keywordWeight {
+  display: flex;
+  justify-content: flex-end;
+}
+.deleteKeyword {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 6px;
+  padding-bottom: 0;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  height: 100%;
+  cursor: pointer;
+  /*padding: 2px;*/
+  color: var(--custom-color);
+}
+.deleteKeyword > svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.container {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 4rem 3rem;
+}
+@media screen and (max-width: 600px) {
+  .container {
+    padding: 1rem .5rem;
+  }
+  .keywordsList{
+    grid-template-columns: auto;
+  }
+}
 /* Forms */
 
 label {
@@ -113,35 +156,48 @@ label {
   font-size: 0.8rem;
   text-transform: uppercase;
 }
-
+.inputContainer {
+  display: inline-block;
+  width: 100%;
+}
 input {
   width: 100%;
-  border-radius: 5px;
+  border-radius: 4px;
   border: var(--custom-border);
-  padding: 8px;
-  font-size: 0.9rem;
-  background-color: var(--custom-bg-color);
-  color: var(--custom-color);
+  padding: 10px 15px;
+  font-size: 14px;
+  background-color: #1e1e1e;
+  color: var(--color-white);
+  box-sizing: border-box;
+  /*letter-spacing: 6px;*/
+  font-family: ui-sans-serif, sans-serif;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 100ms;
 }
-
+input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #a9a9a9;
+  opacity: 1; /* Firefox */
+}
 input[disabled] {
   color: var(--custom-color-secondary);
 }
 
 /* Button */
 
-button,
 .button {
-  color: var(--custom-color);
-  border: var(--custom-border);
-  background-color: var(--custom-bg-color);
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-white);
+  border: 1px solid var(--custom-color-brand);
+  background-color: var(--custom-color-brand);
+  font-family: ui-sans-serif, sans-serif;
   text-align: center;
-  border-radius: var(--custom-border-radius);
-  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  padding: 10px 15px;
+  width: 100%;
   cursor: pointer;
-  text-align: center;
-  font-size: 0.9rem;
+  font-size: 14px;
   text-transform: uppercase;
 }
 

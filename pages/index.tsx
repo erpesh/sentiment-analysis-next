@@ -9,19 +9,11 @@ const Home: NextPage = () => {
   const supabase = useSupabaseClient()
 
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
+    <div className="container">
       {!session ? (
         <div className="row">
-          <div className="col-6">
-            <h1 className="header">Supabase Auth + Storage</h1>
-            <p className="">
-              Experience our Auth and Storage through a simple profile management example. Create a
-              user profile and upload an avatar image. Fast, simple, secure.
-            </p>
-          </div>
           <div className="col-6 auth-widget">
             <Auth
-              // providers={["github", "google"]}
               supabaseClient={supabase}
               appearance={{ theme: ThemeSupa }}
               theme="dark" />
@@ -34,7 +26,7 @@ const Home: NextPage = () => {
         </>
       )}
 
-      <Footer />
+      {/*<Footer />*/}
     </div>
   )
 }

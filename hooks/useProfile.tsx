@@ -35,6 +35,6 @@ const useProfile = () => {
       console.log(error)
     }
   }
-  return profile;
+  return {profile, setProfile};
 }
 export default useProfile;
