@@ -43,20 +43,27 @@ export default function Search() {
   }, [router])
 
   return (
-    <div className={"container"}>
-      <div className={"searchProducts"}>
-        <label>Search for products</label>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          searchSubmit();
-        }} className={"searchInputContainer"}>
-          <input type={"search"} placeholder={"Search for products"} onChange={e => setSearchQuery(e.currentTarget.value)}/>
-          <button type={"submit"} className={"searchButton"}><AiOutlineSearch/></button>
-        </form>
+    <div className={"container searchWrap"}>
+      <div className={"searchContainer"}>
+        <div className={"searchProducts"}>
+          <label>Search for products</label>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            searchSubmit();
+          }} className={"searchInputContainer"}>
+            <input type={"search"} placeholder={"Search for products"} onChange={e => setSearchQuery(e.currentTarget.value)}/>
+            <button type={"submit"} className={"searchButton"}><AiOutlineSearch/></button>
+          </form>
+        </div>
+        <div className={"productsContainer"}>
+          {products?.length ? products.map((item: TProduct) => {
+            return <Product product={item} key={item.id}/>
+          }) : <div>{products !== null && "No results"}</div>}
+        </div>
       </div>
-      {products?.length ? products.map((item: TProduct) => {
-        return <Product product={item} key={item.id}/>
-      }) : <div>{products !== null && "No results"}</div>}
+      <aside>
+
+      </aside>
     </div>
   )
 }

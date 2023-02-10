@@ -203,6 +203,24 @@ input[type="search"]::-webkit-search-cancel-button{
   border-radius: 50%;
 }
 
+.searchWrap {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  grid-gap: 1rem;
+}
+.searchProducts {
+
+}
+aside {
+
+}
+.cardDetails > li > svg {
+  fill: var(--custom-color-brand);
+}
+.cardPrice {
+  font-size: larger;
+  font-weight: bold;
+}
 /* Button */
 
 .button {
