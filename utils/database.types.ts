@@ -22,8 +22,9 @@ export interface Database {
           id: string
           updated_at: string | null
           username: string | null
-          full_name: string | null
           isAdmin: boolean
+          first_name: string | null
+          last_name: string | null
         }
         Insert: {
           id: string
@@ -31,6 +32,8 @@ export interface Database {
           username?: string | null
           full_name?: string | null
           isAdmin?: boolean | null
+          first_name: string | null
+          last_name: string | null
         }
         Update: {
           id?: string
@@ -38,6 +41,8 @@ export interface Database {
           username?: string | null
           full_name?: string | null
           isAdmin?: boolean | null
+          first_name: string | null
+          last_name: string | null
         }
       },
       products: {

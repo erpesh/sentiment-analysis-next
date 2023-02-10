@@ -13,7 +13,7 @@ export const ProfileContext = createContext<ProfileContext>({
 
 // Create a context provider
 const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const profile = useProfile();
+  const {profile, setProfile} = useProfile();
   console.log(profile)
 
   return (

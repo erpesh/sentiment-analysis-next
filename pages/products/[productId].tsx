@@ -18,14 +18,14 @@ export default function Product() {
   }
 
   return (
-    <div>
+    <div className={"container"}>
       <h2>{product.name}</h2>
       <p>{product.id}</p>
       <p>{product.created_at}</p>
       {product.comments?.map((comment) => {
         return <div key={comment.id}>
           <ul>
-            <li>{comment.author.full_name}</li>
+            <li>{comment.author.first_name && comment.author.last_name ? comment.author.first_name + " " + comment.author.last_name : "NULL"}</li>
             <li>{comment.text}</li>
             <li>{comment.rating}</li>
           </ul>

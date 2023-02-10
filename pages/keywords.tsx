@@ -2,7 +2,7 @@ import {Database} from "../utils/database.types";
 import {useEffect, useState} from "react";
 import useProfile from "../hooks/useProfile";
 import {useRouter} from 'next/router'
-import {AiFillDelete} from 'react-icons/ai';
+import {AiFillDelete, AiOutlineSearch} from 'react-icons/ai';
 
 type TKeyword = Database['public']['Tables']['keywords']['Row'];
 export default function Keywords() {
@@ -57,11 +57,11 @@ export default function Keywords() {
     <>
       {profile && <div className="container keywordsContainer">
         <div className={"searchKeywords"}>
-          <div className={"inputContainer"}>
-            <label>Search for keywords</label>
+          <label>Search for keywords</label>
+          <div className={"searchInputContainer"}>
             <input type={"search"} placeholder={"Search for keywords"} onChange={e => setSearchQuery(e.currentTarget.value)}/>
+            <button className={"searchButton"}><AiOutlineSearch/></button>
           </div>
-          <button className={"button"}>Search</button>
         </div>
         <div className={"addKeyword"}>
           <div className={"keywordInputs"}>
