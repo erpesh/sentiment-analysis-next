@@ -24,7 +24,7 @@ const NavBar = () => {
           <span><Link href={"/search"}>Search</Link></span>
           {profile && profile.isAdmin ? <>
             <span><Link href={"/keywords"}>Keywords</Link></span>
-            <span>Add Product</span>
+            <span><Link href={"/addProduct"}>Add Product</Link></span>
           </> : <></>}
         </div>
         <div className={"secondPart"}>

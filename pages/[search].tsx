@@ -19,10 +19,8 @@ export default function Search() {
     if (!router.query.query) getProducts();
     else {
       try {
-        console.log(router.query)
         const res = await fetch(`/api/search?query=${router.query.query}`);
         const json = await res.json();
-        console.log(await json);
         setProducts(json);
       } catch (error) {
         console.log(error);
@@ -31,12 +29,9 @@ export default function Search() {
   }
 
   async function getProducts() {
-    // router
-    console.log(router.query);
     try {
       const res = await fetch(`/api/products`);
       const json = await res.json();
-      console.log(await json);
       setProducts(json);
     } catch (error) {
       console.log(error);

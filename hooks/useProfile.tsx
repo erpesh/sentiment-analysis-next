@@ -15,9 +15,8 @@ const useProfile = () => {
 
   async function getProfile() {
     try {
-
       if (!user) return;
-      let { data, error, status } = await supabase
+      let {data, error, status} = await supabase
         .from('users')
         .select(`*`)
         .eq('id', user.id)
@@ -26,7 +25,6 @@ const useProfile = () => {
       if (error && status !== 406) {
         throw error
       }
-
       if (data) {
         setProfile(data);
       }
@@ -35,6 +33,7 @@ const useProfile = () => {
       console.log(error)
     }
   }
+
   return {profile, setProfile};
 }
 export default useProfile;

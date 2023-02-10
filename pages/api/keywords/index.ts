@@ -8,7 +8,6 @@ export default async (
 ) => {
   if (req.method === "POST"){
     const body = JSON.parse(req.body);
-    console.log(body);
     const {data, error, status} = await supabase
       .from('keywords')
       .insert(body)

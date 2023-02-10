@@ -8,10 +8,19 @@ export default async (
 ) => {
   const productId = req.query.productId;
 
-  const { data, error, status } = await supabase
-    .from('products')
-    .select(`id, created_at, name, comments(id, created_at, text, rating, author:users(*))`)
-    .eq('id', productId)
+  if (req.method === "DELETE"){
+    const response = await supabase
+      .from('products')
+      .delete()
+      .eq('id', productId)
+    res.status(200).json(response.status);
+  }
+  else if (req.method === "GET") {
+    const { data, error, status } = await supabase
+      .from('products')
+      .select(`id, created_at, name, price, type, comments(id, created_at, text, rating, author:users(*))`)
+      .eq('id', productId)
 
-  res.status(200).json(data);
+    res.status(200).json(data);
+  }
 }

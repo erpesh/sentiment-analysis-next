@@ -1,5 +1,7 @@
 import React from "react";
 import useProductOperations from "../../hooks/useProductOperations";
+import useProfile from "../../hooks/useProfile";
+import {useRouter} from "next/router";
 
 export default function Product() {
 
@@ -10,8 +12,11 @@ export default function Product() {
     setRating,
     setComment,
     addComment,
+    deleteProduct,
     userId
   } = useProductOperations();
+
+  const {profile} = useProfile();
 
   if (!product) {
     return <p>Loading...</p>
@@ -20,8 +25,11 @@ export default function Product() {
   return (
     <div className={"container"}>
       <h2>{product.name}</h2>
-      <p>{product.id}</p>
-      <p>{product.created_at}</p>
+      <p>Price: &#163;{product.price}</p>
+      <p>Type: {product.type}</p>
+      {product.comments.length > 0 && <p>Rating: {product.comments.reduce((total, next) => total + next.rating, 0) / product.comments.length}</p>}
+      <button onClick={deleteProduct}>Delete Product</button>
+      <h3>Comments</h3>
       {product.comments?.map((comment) => {
         return <div key={comment.id}>
           <ul>
@@ -29,7 +37,7 @@ export default function Product() {
             <li>{comment.text}</li>
             <li>{comment.rating}</li>
           </ul>
-          {comment.author.id === userId && <button onClick={() => deleteComment(comment.id)}>Delete</button>}
+          {(profile?.isAdmin || comment.author.id === userId) && <button onClick={() => deleteComment(comment.id)}>Delete</button>}
         </div>
       })}
       <ul style={{display: "flex", gap: "1rem"}}>

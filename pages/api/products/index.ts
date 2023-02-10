@@ -6,9 +6,20 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const {data, error, status} = await supabase
-    .from('products')
-    .select(`id, created_at, name, comments(id, created_at, text, rating, author:users(*))`)
-    .limit(10)
-  res.status(200).json(data);
+  if (req.method === "POST"){
+    const body = JSON.parse(req.body);
+    const {data, error, status} = await supabase
+      .from('products')
+      .insert(body)
+      .select(`id, created_at, name, price, type, comments(id, created_at, text, rating, author:users(*))`)
+      .single();
+    res.status(200).json(data);
+  }
+  else if (req.method === "GET"){
+    const {data, error, status} = await supabase
+      .from('products')
+      .select(`id, created_at, name, price, type, comments(id, created_at, text, rating, author:users(*))`)
+      .limit(10)
+    res.status(200).json(data);
+  }
 }

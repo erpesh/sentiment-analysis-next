@@ -50,6 +50,8 @@ export interface Database {
           id: number,
           created_at: string,
           name: string,
+          price: number,
+          type: string,
           comments: Comment[],
         }
         // Insert: {

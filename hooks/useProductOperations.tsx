@@ -5,15 +5,6 @@ import {Database} from "../utils/database.types";
 
 type TProduct = Database['public']['Tables']['products']['Row'];
 
-// export interface TProductOperations {
-//   product: TProduct,
-//   deleteComment: (id: number) => void,
-//   rating: number,
-//   setRating: (rating: number) => void,
-//   setComment: (comment: string) => void,
-//   addComment: () => void,
-//   userId: string
-// }
 
 const useProductOperations = () => {
   const user = useUser();
@@ -34,18 +25,21 @@ const useProductOperations = () => {
     }
   }
 
+  async function deleteProduct(){
+    if (!user) throw new Error("no user");
+    const res = await fetch(`/api/products/${productId}`,
+      {
+        method: "DELETE",
+      });
+    router.push({pathname: "/search"});
+  }
+
   async function deleteComment(commentId: number){
     if (!user) throw new Error("no user");
     const res = await fetch(`/api/comments/${commentId}`,
       {
         method: "DELETE",
       });
-
-    // let _product = {...product};
-    // if (_product.comments)
-    //   _product.comments = _product.comments.filter(item => item.id !== commentId)
-    // // @ts-ignore
-    // setProduct(_product)
     fetchData()
   }
 
@@ -80,6 +74,7 @@ const useProductOperations = () => {
     setRating,
     setComment,
     addComment,
+    deleteProduct,
     userId: user?.id
   }
 }
