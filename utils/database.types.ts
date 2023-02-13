@@ -52,6 +52,7 @@ export interface Database {
           name: string,
           price: number,
           type: string,
+          image_url: string | null,
           comments: Comment[],
         }
         // Insert: {

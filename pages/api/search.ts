@@ -12,7 +12,7 @@ export default async (
       query = query.join("");
     const {data, error, status} = await supabase
       .from('products')
-      .select(`id, created_at, name, price, type, comments(id, created_at, text, rating, author:users(*))`)
+      .select(`id, created_at, name, price, type, image_url, comments(id, created_at, text, rating, author:users(*))`)
       .textSearch("name", query);
     res.status(200).json(data);
   }

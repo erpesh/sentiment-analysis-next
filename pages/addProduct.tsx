@@ -1,9 +1,16 @@
 import {Database} from "../utils/database.types";
 import useProfile from "../hooks/useProfile";
 import {useRouter} from 'next/router'
-import {useState} from "react";
+import React, {useState} from "react";
+import {useSupabaseClient} from "@supabase/auth-helpers-react";
+
+type TProduct = Database['public']['Tables']['products']['Row']
 
 export default function Keywords() {
+
+  const supabase = useSupabaseClient<Database>()
+  const [imageUrl, setImageUrl] = useState<TProduct['image_url']>(null)
+  const [uploading, setUploading] = useState(false)
 
   const router = useRouter();
   const {profile, setProfile} = useProfile();
@@ -19,11 +26,44 @@ export default function Keywords() {
           name: name,
           price: Number(price),
           type: type,
+          image_url: imageUrl
         })
       });
     const data = await res.json();
     if (data.id)
       router.push({pathname: `/products/${data.id}`});
+  }
+
+  const uploadImage: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
+    try {
+      setUploading(true)
+
+      if (!event.target.files || event.target.files.length === 0) {
+        throw new Error('You must select an image to upload.')
+      }
+
+      const file = event.target.files[0]
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Math.random()}-${name}.${fileExt}`
+      const filePath = `${fileName}`
+
+      let {error: uploadError} = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, {upsert: true})
+
+      if (uploadError) {
+        throw uploadError
+      }
+
+      setImageUrl(filePath);
+      console.log(filePath)
+
+    } catch (error) {
+      alert('Error uploading image!')
+      console.log(error)
+    } finally {
+      setUploading(false)
+    }
   }
 
   if (profile && !profile.isAdmin) {
@@ -51,6 +91,15 @@ export default function Keywords() {
               <label>Price</label>
               <input type={"text"} placeholder={"Price"} onChange={e => setPrice(e.currentTarget.value)}/>
             </div>
+          </div>
+          <div className={"fileInputContainer"}>
+            <input
+              type="file"
+              id="single"
+              accept="image/*"
+              onChange={uploadImage}
+              disabled={uploading}
+            />
           </div>
           <div className={"addKeywordBtn"}>
             <button type={"submit"} className={"button"}>Add Product</button>

@@ -11,14 +11,14 @@ export default async (
     const {data, error, status} = await supabase
       .from('products')
       .insert(body)
-      .select(`id, created_at, name, price, type, comments(id, created_at, text, rating, author:users(*))`)
+      .select(`id, created_at, name, price, type, image_url, comments(id, created_at, text, rating, author:users(*))`)
       .single();
     res.status(200).json(data);
   }
   else if (req.method === "GET"){
     const {data, error, status} = await supabase
       .from('products')
-      .select(`id, created_at, name, price, type, comments(id, created_at, text, rating, author:users(*))`)
+      .select(`id, created_at, name, price, type, image_url, comments(id, created_at, text, rating, author:users(*))`)
       .limit(10)
     res.status(200).json(data);
   }
