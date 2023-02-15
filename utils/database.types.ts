@@ -6,6 +6,9 @@ export type Json =
   | { [key: string]: Json }
   | Json[]
 
+// const ProductTypes
+export const ProductTypes = ["book", "laptop", "tool"];;
+
 export interface Comment {
   id: number,
   created_at: string,

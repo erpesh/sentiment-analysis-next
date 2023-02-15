@@ -36,18 +36,19 @@ export default function Product({product} : Props) {
     if (product.image_url) downloadImage(product.image_url)
   }, [product.image_url])
 
-  return <div className={"cardContainer"} key={product.id}>
-    <h2><Link href={`/products/${product.id}`}>{product.name}</Link></h2>
-
-    <ul className={"cardDetails"}>
-      <img
+  return <div className={"cardContainer"}>
+    <div className={"productImageWrap"}>
+      <Link href={`/products/${product.id}`}><img
         src={imageUrl!}
         alt="Avatar"
         className="avatar image"
-      />
-      <li>&#163;<span className={"cardPrice"}>{product.price}</span></li>
-      {product.comments.length > 0 && <li>{rating}<Rating value={rating} precision={0.1} className={classes.root} readOnly/>({product.comments.length})</li>}
-      <li>Type: {product.type}</li>
+      /></Link>
+    </div>
+    <ul className={"cardDetails"}>
+      <li><h2 className={"cardName"}><Link href={`/products/${product.id}`}>{product.name}</Link></h2></li>
+      <li className={"cardPriceLine"}>&#163;<span className={"cardPrice"}>{product.price}</span></li>
+      {product.comments.length > 0 && <li className={"cardRating"}>{rating}<Rating value={rating} precision={0.1} className={classes.root} readOnly/><span className={"cardNumComments"}>({product.comments.length})</span></li>}
+      <li className={"cardType"}>Type: <span>{product.type}</span></li>
     </ul>
   </div>
 }
