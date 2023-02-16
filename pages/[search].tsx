@@ -1,4 +1,4 @@
-import {Database, ProductTypes} from "../utils/database.types";
+import {Database, ProductTypes, SortOptions, TCheckbox} from "../utils/database.types";
 import {useEffect, useState} from "react";
 import Product from "../components/Product";
 import {AiOutlineSearch} from "react-icons/ai";
@@ -10,13 +10,16 @@ type TProduct = Database['public']['Tables']['products']['Row'];
 export default function Search() {
 
   const MIN_PRICE = 1;
-  const MAX_PRICE = 5000;
+  const MAX_PRICE = 1000;
 
   const router = useRouter();
   const [products, setProducts] = useState<TProduct[] | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState<TCheckbox[]>(ProductTypes);
+  const [sortFilter, setSortFilter] = useState<TCheckbox[]>(SortOptions);
 
-  const [priceRange, setPriceRange] = useState([10, 500])
+  const [priceRange, setPriceRange] = useState([10, 100]);
+  const [ratingRange, setRatingRange] = useState([4, 5]);
 
   function searchSubmit() {
     router.push({pathname: "search", query: {query: searchQuery}})
@@ -85,19 +88,22 @@ export default function Search() {
           }) : <div>{products !== null && "No results"}</div>}
         </div>
         <aside>
-          <h3>Filters</h3>
           <div className={"filterType"}>
             <span>Type</span>
             <ul>
-              {ProductTypes.map(type => {
-                return <li key={type}>{type}</li>
+              {typeFilter.map(type => {
+                return <li key={type.name}>
+                  <input checked={type.isChecked} autoComplete={"off"} type={"checkbox"}/>
+                  <span>{type.name}</span>
+                </li>
               })}
             </ul>
           </div>
-          <div className={"filterPrice"}>
+          <div className={"filterType"}>
             <span>Price</span>
             <div className={"sliderContainer"}>
               <input
+                className={"rangeInput"}
                 type={"number"}
                 value={priceRange[0].toString()}
                 min={MIN_PRICE}
@@ -118,6 +124,7 @@ export default function Search() {
                 trackStyle={brandStyle}
               />
               <input
+                className={"rangeInput"}
                 type={"number"}
                 value={priceRange[1].toString()}
                 min={MIN_PRICE}
@@ -125,23 +132,50 @@ export default function Search() {
                 onChange={e => inputOnchange(priceRange, setPriceRange, Number(e.currentTarget.value), false)}/>
             </div>
           </div>
-          {/*<div className={"filterRating"}>*/}
-          {/*  <span>Rating</span>*/}
-          {/*  <Slider*/}
-          {/*    range*/}
-          {/*    min={1}*/}
-          {/*    max={5000}*/}
-          {/*    value={priceRange}*/}
-          {/*    onChange={(numbers)=> {*/}
-          {/*      if (Array.isArray(numbers) ){*/}
-          {/*        setPriceRange(numbers);*/}
-          {/*      }*/}
-          {/*    }}*/}
-          {/*    handleStyle={blackStyle}*/}
-          {/*    railStyle={brandStyle}*/}
-          {/*    trackStyle={brandStyle}*/}
-          {/*  />*/}
-          {/*</div>*/}
+          <div className={"filterType"}>
+            <span>Rating</span>
+            <div className={"sliderContainer"}>
+              <input
+                className={"rangeInput"}
+                type={"number"}
+                value={ratingRange[0].toString()}
+                min={1}
+                max={5}
+                onChange={e => inputOnchange(ratingRange, setRatingRange, Number(e.currentTarget.value), true)}/>
+              <Slider
+                range
+                min={1}
+                max={5}
+                value={ratingRange}
+                onChange={(numbers) => {
+                  if (Array.isArray(numbers)) {
+                    setRatingRange(numbers);
+                  }
+                }}
+                handleStyle={blackStyle}
+                railStyle={brandStyle}
+                trackStyle={brandStyle}
+              />
+              <input
+                className={"rangeInput"}
+                type={"number"}
+                value={ratingRange[1].toString()}
+                min={1}
+                max={5}
+                onChange={e => inputOnchange(ratingRange, setRatingRange, Number(e.currentTarget.value), false)}/>
+            </div>
+          </div>
+          <div className={"filterType"}>
+            <span>Sort by</span>
+            <ul>
+              {sortFilter.map(option => {
+                return <li key={option.name}>
+                  <input checked={option.isChecked} autoComplete={"off"} type={"checkbox"}/>
+                  <span>{option.name}</span>
+                </li>
+              })}
+            </ul>
+          </div>
         </aside>
       </div>
     </div>

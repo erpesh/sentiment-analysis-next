@@ -6,8 +6,22 @@ export type Json =
   | { [key: string]: Json }
   | Json[]
 
-// const ProductTypes
-export const ProductTypes = ["book", "laptop", "tool"];;
+export interface TCheckbox {
+  name: string,
+  isChecked: boolean
+}
+
+export const ProductTypes = [
+  {name: "book", isChecked: false},
+  {name: "laptop", isChecked: false},
+  {name: "tool", isChecked: false}
+];
+export const SortOptions = [
+  {name: "rating", isChecked: false},
+  {name: "recommendation", isChecked: false},
+  {name: "price", isChecked: false},
+  {name: "popularity", isChecked: false}
+];
 
 export interface Comment {
   id: number,

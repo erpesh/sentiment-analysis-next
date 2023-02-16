@@ -175,7 +175,7 @@ label {
 .cardContainer{
   display: flex;
   margin: .3rem 0;
-  padding-bottom: .3rem;
+  padding-bottom: .675rem;
   border-bottom: 2px solid var(--custom-color);
 }
 .cardDetails {
@@ -217,12 +217,37 @@ label {
 .productImageWrap > a > img {
   width: 100%;
 }
+.filterType {
+  margin-top: 1.5rem;
+}
 .filterType > ul {
   list-style-type: none;
   padding-left: 1rem;
+  margin-bottom: 0;
+  margin-top: .5rem;
+}
+.filterType > ul > li > span {
+  color: var(--custom-color-brand);
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: .2rem;
+}
+.filterType > span {
+  display: block;
+  padding: .3rem .3rem .5rem .5rem;
+  background: #1e1e1e;
+  color: var(--custom-color-brand);
+  font-size: 20px;
+  font-weight: bold;
+  border-left: .675rem solid var(--custom-color-brand);
 }
 .sliderContainer{
-  /*display: flex;*/
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.rangeInput {
+  width: 2.25rem;
 }
 input[type=text], input[type=search] {
   width: 100%;
@@ -237,6 +262,9 @@ input[type=text], input[type=search] {
   font-family: ui-sans-serif, sans-serif;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 100ms;
+}
+input[type="checkbox"] {
+  accent-color: var(--custom-color-brand);
 }
 input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #a9a9a9;
