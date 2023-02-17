@@ -6,23 +6,26 @@ import {useRouter} from "next/router";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
-type TProduct = Database['public']['Tables']['products']['Row'];
+type TProductCard = Database['public']['Tables']['products']['Card'];
+
 export default function Search() {
 
   const MIN_PRICE = 1;
   const MAX_PRICE = 1000;
 
   const router = useRouter();
-  const [products, setProducts] = useState<TProduct[] | null>(null);
+  const [products, setProducts] = useState<TProductCard[] | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<TCheckbox[]>(ProductTypes);
   const [sortFilter, setSortFilter] = useState<TCheckbox[]>(SortOptions);
 
-  const [priceRange, setPriceRange] = useState([10, 100]);
-  const [ratingRange, setRatingRange] = useState([4, 5]);
+  const [priceRange, setPriceRange] = useState([1, 1000]);
+  const [ratingRange, setRatingRange] = useState([1, 5]);
 
   function searchSubmit() {
-    router.push({pathname: "search", query: {query: searchQuery}})
+    // router.push({pathname: "search", query: {query: searchQuery}})
+    router.query.query = searchQuery;
+    router.push(router);
   }
 
   async function getSearchResults() {
@@ -68,6 +71,22 @@ export default function Search() {
     setRange(_range);
   }
 
+  function checkboxOnchange(filterList: TCheckbox[], setFilterList: (list: TCheckbox[]) => void, index: number){
+    let _list = [...filterList];
+    _list[index].isChecked = !_list[index].isChecked;
+    setFilterList(_list);
+  }
+
+  function handleQueryChanges(type: "Type" | "Sort" | "Price" | "Rating"){
+    if (type === "Type") {
+
+    }
+  }
+
+  function submitFilters(){
+
+  }
+
   return (
     <div className={"container"}>
       <div className={"searchProducts"}>
@@ -83,22 +102,11 @@ export default function Search() {
       </div>
       <div className={"searchContainer searchWrap"}>
         <div className={"productsContainer"}>
-          {products?.length ? products.map((item: TProduct) => {
+          {products?.length ? products.map((item: TProductCard) => {
             return <Product product={item} key={item.id}/>
           }) : <div>{products !== null && "No results"}</div>}
         </div>
         <aside>
-          <div className={"filterType"}>
-            <span>Type</span>
-            <ul>
-              {typeFilter.map(type => {
-                return <li key={type.name}>
-                  <input checked={type.isChecked} autoComplete={"off"} type={"checkbox"}/>
-                  <span>{type.name}</span>
-                </li>
-              })}
-            </ul>
-          </div>
           <div className={"filterType"}>
             <span>Price</span>
             <div className={"sliderContainer"}>
@@ -168,13 +176,37 @@ export default function Search() {
           <div className={"filterType"}>
             <span>Sort by</span>
             <ul>
-              {sortFilter.map(option => {
+              {sortFilter.map((option, index) => {
                 return <li key={option.name}>
-                  <input checked={option.isChecked} autoComplete={"off"} type={"checkbox"}/>
+                  <input
+                    onChange={() => checkboxOnchange(sortFilter, setSortFilter, index)}
+                    checked={option.isChecked}
+                    autoComplete={"off"}
+                    type={"checkbox"}
+                  />
                   <span>{option.name}</span>
                 </li>
               })}
             </ul>
+          </div>
+          <div className={"filterType"}>
+            <span>Type</span>
+            <ul>
+              {typeFilter.map((type, index) => {
+                return <li key={type.name}>
+                  <input
+                    onChange={() => checkboxOnchange(typeFilter, setTypeFilter, index)}
+                    checked={type.isChecked}
+                    autoComplete={"off"}
+                    type={"checkbox"}
+                  />
+                  <span>{type.name}</span>
+                </li>
+              })}
+            </ul>
+          </div>
+          <div className={"filterSubmit"}>
+            <button className={"button"}>SUBMIT</button>
           </div>
         </aside>
       </div>

@@ -23,11 +23,23 @@ export const SortOptions = [
   {name: "popularity", isChecked: false}
 ];
 
+export interface RangeQueryDetails {
+  type: "Price" | "Rating",
+  start: number,
+  end: number
+}
+export interface CheckboxQueryDetails {
+  type: "Type" | "Sort",
+  name: string,
+  value: boolean
+}
+
 export interface Comment {
   id: number,
   created_at: string,
   text: string,
   rating: number,
+  recommendation_rating: number,
   author: Database["public"]["Tables"]["users"]["Row"]
 }
 
@@ -72,6 +84,17 @@ export interface Database {
           image_url: string | null,
           comments: Comment[],
         }
+        Card: {
+          id: number,
+          created_at: string,
+          name: string,
+          price: number,
+          type: string,
+          image_url: string | null,
+          rating: number | null,
+          recommendation_rating: number | null,
+          num_comments: number
+        }
         // Insert: {
         //   id: number,
         //   created_at?: string | null
@@ -88,8 +111,9 @@ export interface Database {
           id: number,
           created_at: string,
           text: string,
-          product_id: number
-          rating: number
+          product_id: number,
+          rating: number,
+          recommendation_rating: number,
         }
         // Insert: {
         //   id?: number | null,

@@ -217,6 +217,9 @@ label {
 .productImageWrap > a > img {
   width: 100%;
 }
+.filterSubmit {
+  margin-top: 1.5rem;
+}
 .filterType {
   margin-top: 1.5rem;
 }

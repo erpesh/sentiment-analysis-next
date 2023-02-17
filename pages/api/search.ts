@@ -11,9 +11,11 @@ export default async (
     if (Array.isArray(query))
       query = query.join("");
     const {data, error, status} = await supabase
-      .from('products')
-      .select(`id, created_at, name, price, type, image_url, comments(id, created_at, text, rating, author:users(*))`)
-      .textSearch("name", query);
+      .from('product_comments_count')
+      .select(`*`)
+      .textSearch("name", query)
+
     res.status(200).json(data);
+    console.log(data)
   }
 }
