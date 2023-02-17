@@ -22,17 +22,13 @@ export default function Search() {
   const [priceRange, setPriceRange] = useState([1, 1000]);
   const [ratingRange, setRatingRange] = useState([1, 5]);
 
-  function searchSubmit() {
-    // router.push({pathname: "search", query: {query: searchQuery}})
-    router.query.query = searchQuery;
-    router.push(router);
-  }
 
   async function getSearchResults() {
-    if (!router.query.query) getProducts();
+    console.log(router.query)
+    if (Object.keys(router.query).length === 1) getProducts();
     else {
       try {
-        const res = await fetch(`/api/search?query=${router.query.query}`);
+        const res = await fetch(`/api${router.asPath}`);
         const json = await res.json();
         setProducts(json);
       } catch (error) {
@@ -77,14 +73,44 @@ export default function Search() {
     setFilterList(_list);
   }
 
-  function handleQueryChanges(type: "Type" | "Sort" | "Price" | "Rating"){
-    if (type === "Type") {
+  function submitSearch(){
+    const sortList = sortFilter.filter(item => item.isChecked).map(item => item.name);
+    const typeList = typeFilter.filter(item => item.isChecked).map(item => item.name);
 
+    if (searchQuery.length === 0) {
+      delete router.query.query;
     }
-  }
+    else {
+      router.query.query = searchQuery;
+    }
 
-  function submitFilters(){
+    if (priceRange[0] === MIN_PRICE && priceRange[1] === MAX_PRICE){
+      delete router.query.price;
+    }
+    else {
+      router.query.price = `${priceRange[0]}-${priceRange[1]}`;
+    }
+    if (ratingRange[0] === 1 && ratingRange[1] === 5){
+      delete router.query.rating;
+    }
+    else {
+      router.query.rating = `${ratingRange[0]}-${ratingRange[1]}`;
+    }
 
+    if (sortList.length === 0) {
+      delete router.query.sort;
+    }
+    else {
+      router.query.sort = sortList.join(",");
+    }
+
+    if (typeList.length === 0) {
+      delete router.query.type;
+    }
+    else {
+      router.query.type = typeList.join(",");
+    }
+    router.push(router);
   }
 
   return (
@@ -93,7 +119,7 @@ export default function Search() {
         <label>Search for products</label>
         <form onSubmit={(e) => {
           e.preventDefault();
-          searchSubmit();
+          submitSearch();
         }} className={"searchInputContainer"}>
           <input type={"search"} placeholder={"Search for products"}
                  onChange={e => setSearchQuery(e.currentTarget.value)}/>
@@ -206,7 +232,7 @@ export default function Search() {
             </ul>
           </div>
           <div className={"filterSubmit"}>
-            <button className={"button"}>SUBMIT</button>
+            <button onClick={submitSearch} className={"button"}>SUBMIT</button>
           </div>
         </aside>
       </div>

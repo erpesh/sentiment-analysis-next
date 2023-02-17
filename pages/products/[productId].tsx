@@ -1,7 +1,6 @@
 import React from "react";
 import useProductOperations from "../../hooks/useProductOperations";
 import useProfile from "../../hooks/useProfile";
-import {useRouter} from "next/router";
 
 export default function Product() {
 

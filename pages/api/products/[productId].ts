@@ -30,11 +30,11 @@ export default async (
         created_at, 
         text, 
         rating, 
-        recommendation,
+        recommendation_rating,
         author:users(*)
        )`)
       .eq('id', productId)
-
+    console.log(error)
     res.status(200).json(data);
   }
 }

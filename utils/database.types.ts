@@ -19,7 +19,8 @@ export const ProductTypes = [
 export const SortOptions = [
   {name: "rating", isChecked: false},
   {name: "recommendation", isChecked: false},
-  {name: "price", isChecked: false},
+  {name: "price ascending", isChecked: false},
+  {name: "price descending", isChecked: false},
   {name: "popularity", isChecked: false}
 ];
 
