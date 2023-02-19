@@ -17,14 +17,17 @@ export default async (
   }
   else if (req.method === "GET") {
     const { data, error, status } = await supabase
-      .from('products')
+      .from('product_comments_count')
       .select(`
       id, 
       created_at, 
       name, 
       price, 
       type, 
-      image_url, 
+      image_url,
+      num_comments,
+      rating,
+      recommendation_rating,
       comments(
         id, 
         created_at, 

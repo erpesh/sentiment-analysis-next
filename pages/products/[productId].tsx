@@ -1,6 +1,7 @@
 import React from "react";
 import useProductOperations from "../../hooks/useProductOperations";
 import useProfile from "../../hooks/useProfile";
+import useProductImage from "../../hooks/useProductImage";
 
 export default function Product() {
 
@@ -17,6 +18,8 @@ export default function Product() {
 
   const {profile} = useProfile();
 
+  const imageUrl = useProductImage(product?.image_url);
+
   if (!product) {
     return <p>Loading...</p>
   }
@@ -24,6 +27,7 @@ export default function Product() {
   return (
     <div className={"container"}>
       <h2>{product.name}</h2>
+      {product.image_url && <img src={imageUrl}/>}
       <p>Price: &#163;{product.price}</p>
       <p>Type: {product.type}</p>
       {product.comments.length > 0 && <p>Rating: {product.comments.reduce((total, next) => total + next.rating, 0) / product.comments.length}</p>}

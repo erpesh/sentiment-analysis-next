@@ -165,7 +165,25 @@ label {
   width: 100%;
 }
 .fileInputContainer{
-  width: 15%;
+  width: 20%;
+  margin-bottom: .875rem;
+}
+.fileInputContainer > input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.fileInputContainer > input::before {
+  content: 'SELECT IMAGE';
+  display: inline-block;
+  background: var(--custom-color-brand);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 10pt;
 }
 .productsContainer {
   display: flex;

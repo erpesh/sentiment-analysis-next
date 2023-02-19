@@ -4,6 +4,7 @@ import Rating from '@mui/material/Rating';
 import {useEffect, useState} from "react";
 import {useSupabaseClient} from "@supabase/auth-helpers-react";
 import useRatingStyles from "../hooks/useRatingStyles";
+import useProductImage from "../hooks/useProductImage";
 
 type TProduct = Database['public']['Tables']['products']['Card'];
 
@@ -14,26 +15,8 @@ interface Props {
 export default function Product({product} : Props) {
 
   const classes = useRatingStyles();
-  const supabase = useSupabaseClient<Database>()
 
-  async function downloadImage(path: string) {
-    try {
-      const {data, error} = await supabase.storage.from('avatars').download(path)
-      if (error) {
-        throw error
-      }
-      const url = URL.createObjectURL(data)
-      setImageUrl(url)
-    } catch (error) {
-      console.log('Error downloading image: ', error)
-    }
-  }
-
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (product.image_url) downloadImage(product.image_url)
-  }, [product.image_url])
+  const imageUrl = useProductImage(product.image_url);
 
   return <div className={"cardContainer"}>
     <div className={"productImageWrap"}>

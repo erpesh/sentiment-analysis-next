@@ -15,6 +15,7 @@ export const ProfileContext = createContext<ProfileContext>({
 const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const {profile, setProfile} = useProfile();
 
+
   return (
     <ProfileContext.Provider value={{ profile: profile }}>
       {children}

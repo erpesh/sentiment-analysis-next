@@ -22,24 +22,39 @@ export default function Search() {
   const [priceRange, setPriceRange] = useState([1, 1000]);
   const [ratingRange, setRatingRange] = useState([1, 5]);
 
+  function getQueryParams() {
+    let query: string = router.query.query as string;
+    let price: string = router.query.price as string;
+    let rating: string = router.query.rating as string;
+    let sort: string = router.query.sort as string;
+    let type: string = router.query.type as string;
 
-  async function getSearchResults() {
-    console.log(router.query)
-    if (Object.keys(router.query).length === 1) getProducts();
-    else {
-      try {
-        const res = await fetch(`/api${router.asPath}`);
-        const json = await res.json();
-        setProducts(json);
-      } catch (error) {
-        console.log(error);
-      }
+    if (query) {
+      setSearchQuery(query);
+    }
+    if (price) {
+      setPriceRange(price.split('-').map(num => Number(num)))
+    }
+    if (rating) {
+      setRatingRange(rating.split('-').map(num => Number(num)))
+    }
+    if (sort) {
+      const sortQueryList = sort.split(",");
+      sortFilter.map(item => {
+        item.isChecked = sortQueryList.includes(item.name);
+      })
+    }
+    if (type) {
+      const typeQueryList = type.split(",");
+      typeFilter.map(item => {
+        item.isChecked = typeQueryList.includes(item.name);
+      })
     }
   }
 
-  async function getProducts() {
+  async function getSearchResults() {
     try {
-      const res = await fetch(`/api/products`);
+      const res = await fetch(`/api${router.asPath}`);
       const json = await res.json();
       setProducts(json);
     } catch (error) {
@@ -48,7 +63,8 @@ export default function Search() {
   }
 
   useEffect(() => {
-    getSearchResults();
+    if (router.asPath !== "/[search]") getSearchResults();
+    getQueryParams();
   }, [router])
 
   const brandStyle = {
@@ -67,47 +83,42 @@ export default function Search() {
     setRange(_range);
   }
 
-  function checkboxOnchange(filterList: TCheckbox[], setFilterList: (list: TCheckbox[]) => void, index: number){
+  function checkboxOnchange(filterList: TCheckbox[], setFilterList: (list: TCheckbox[]) => void, index: number) {
     let _list = [...filterList];
     _list[index].isChecked = !_list[index].isChecked;
     setFilterList(_list);
   }
 
-  function submitSearch(){
+  function submitSearch() {
     const sortList = sortFilter.filter(item => item.isChecked).map(item => item.name);
     const typeList = typeFilter.filter(item => item.isChecked).map(item => item.name);
 
     if (searchQuery.length === 0) {
       delete router.query.query;
-    }
-    else {
+    } else {
       router.query.query = searchQuery;
     }
 
-    if (priceRange[0] === MIN_PRICE && priceRange[1] === MAX_PRICE){
+    if (priceRange[0] === MIN_PRICE && priceRange[1] === MAX_PRICE) {
       delete router.query.price;
-    }
-    else {
+    } else {
       router.query.price = `${priceRange[0]}-${priceRange[1]}`;
     }
-    if (ratingRange[0] === 1 && ratingRange[1] === 5){
+    if (ratingRange[0] === 1 && ratingRange[1] === 5) {
       delete router.query.rating;
-    }
-    else {
+    } else {
       router.query.rating = `${ratingRange[0]}-${ratingRange[1]}`;
     }
 
     if (sortList.length === 0) {
       delete router.query.sort;
-    }
-    else {
+    } else {
       router.query.sort = sortList.join(",");
     }
 
     if (typeList.length === 0) {
       delete router.query.type;
-    }
-    else {
+    } else {
       router.query.type = typeList.join(",");
     }
     router.push(router);

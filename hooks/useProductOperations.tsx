@@ -20,6 +20,7 @@ const useProductOperations = () => {
       const res = await fetch(`/api/products/${productId}`);
       const [json] = await res.json();
       setProduct(json);
+      console.log(json);
     } catch (error) {
       console.log(error);
     }

@@ -4,7 +4,7 @@ import {useRouter} from 'next/router'
 import React, {useState} from "react";
 import {useSupabaseClient} from "@supabase/auth-helpers-react";
 
-type TProduct = Database['public']['Tables']['products']['Row']
+type TProduct = Database['public']['Tables']['products']['Add']
 
 export default function Keywords() {
 

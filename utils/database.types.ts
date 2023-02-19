@@ -24,17 +24,6 @@ export const SortOptions = [
   {name: "popularity", isChecked: false}
 ];
 
-export interface RangeQueryDetails {
-  type: "Price" | "Rating",
-  start: number,
-  end: number
-}
-export interface CheckboxQueryDetails {
-  type: "Type" | "Sort",
-  name: string,
-  value: boolean
-}
-
 export interface Comment {
   id: number,
   created_at: string,
@@ -76,7 +65,7 @@ export interface Database {
         }
       },
       products: {
-        Row: {
+        Add: {
           id: number,
           created_at: string,
           name: string,
@@ -95,6 +84,18 @@ export interface Database {
           rating: number | null,
           recommendation_rating: number | null,
           num_comments: number
+        }
+        Row: {
+          id: number,
+          created_at: string,
+          name: string,
+          price: number,
+          type: string,
+          image_url: string | null,
+          rating: number | null,
+          recommendation_rating: number | null,
+          num_comments: number,
+          comments: Comment[]
         }
         // Insert: {
         //   id: number,
