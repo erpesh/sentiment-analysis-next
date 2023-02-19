@@ -2,6 +2,8 @@ import React from "react";
 import useProductOperations from "../../hooks/useProductOperations";
 import useProfile from "../../hooks/useProfile";
 import useProductImage from "../../hooks/useProductImage";
+import Rating from "@mui/material/Rating";
+import useRatingStyles from "../../hooks/useRatingStyles";
 
 export default function Product() {
 
@@ -17,7 +19,7 @@ export default function Product() {
   } = useProductOperations();
 
   const {profile} = useProfile();
-
+  const classes = useRatingStyles();
   const imageUrl = useProductImage(product?.image_url);
 
   if (!product) {
@@ -26,12 +28,19 @@ export default function Product() {
 
   return (
     <div className={"container"}>
-      <h2>{product.name}</h2>
-      {product.image_url && <img src={imageUrl}/>}
-      <p>Price: &#163;{product.price}</p>
-      <p>Type: {product.type}</p>
-      {product.comments.length > 0 && <p>Rating: {product.comments.reduce((total, next) => total + next.rating, 0) / product.comments.length}</p>}
-      <button onClick={deleteProduct}>Delete Product</button>
+      <div className={"productData"}>
+        {imageUrl && <div className={"productImageContainer"}>
+          <img alt={product.name} src={imageUrl}/>
+        </div>}
+        <div className={"productInfo"}>
+          <h1>{product.name}</h1>
+          {product.num_comments > 0 && <div>{product.rating}<Rating value={product.rating} precision={0.1} className={classes.root} readOnly/><span className={"cardNumComments"}>({product.num_comments})</span></div>}
+          <p>Price: &#163;{product.price}</p>
+          <p>Type: {product.type}</p>
+          {product.comments.length > 0 && <p>Rating: {product.comments.reduce((total, next) => total + next.rating, 0) / product.comments.length}</p>}
+          <button onClick={deleteProduct}>Delete Product</button>
+        </div>
+      </div>
       <h3>Comments</h3>
       {product.comments?.map((comment) => {
         return <div key={comment.id}>

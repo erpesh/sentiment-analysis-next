@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient, Session } from '@supabase/auth-helpers-react'
 
 import { Database } from '../utils/database.types'
-type Users = Database['public']['Tables']['users']['Row']
+type User = Database['public']['Tables']['users']['Row']
 
 export default function Account({ session }: { session: Session }) {
   const supabase = useSupabaseClient<Database>()
   const user = useUser()
   const [loading, setLoading] = useState(true)
-  const [username, setUsername] = useState<Users['username']>(null)
+  const [profile, setProfile] = useState<User | null>(null)
 
   useEffect(() => {
     getProfile()
@@ -21,7 +21,7 @@ export default function Account({ session }: { session: Session }) {
 
       let { data, error, status } = await supabase
         .from('users')
-        .select(`username`)
+        .select(`*`)
         .eq('id', user.id)
         .single()
 
@@ -30,7 +30,7 @@ export default function Account({ session }: { session: Session }) {
       }
 
       if (data) {
-        setUsername(data.username)
+        setProfile(data)
       }
     } catch (error) {
       alert('Error loading user data!')
@@ -40,20 +40,12 @@ export default function Account({ session }: { session: Session }) {
     }
   }
 
-  async function updateProfile({username,}: {
-    username: Users['username']
-  }) {
+  async function updateProfile() {
     try {
       setLoading(true)
       if (!user) throw new Error('No user')
 
-      const updates = {
-        id: user.id,
-        username,
-        updated_at: new Date().toISOString(),
-      }
-
-      let { error } = await supabase.from('users').upsert(updates)
+      let { error } = await supabase.from('users').upsert(profile)
       if (error) throw error
       alert('Profile updated!')
     } catch (error) {
@@ -64,38 +56,68 @@ export default function Account({ session }: { session: Session }) {
     }
   }
 
+  function onChangeProfile(key: string, value: string) {
+    let _profile = {...profile};
+    // @ts-ignore
+    _profile[key] = value;
+    // @ts-ignore
+    setProfile(_profile);
+  }
+
   return (
-    <div className="form-widget">
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
+    <>
+      {profile &&
+        <div className="formWidget">
+          <div>
+            <label htmlFor="email">Email</label>
+            <input id="email" type="text" value={session.user.email} disabled />
+          </div>
+          <div>
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              value={profile.username || ''}
+              onChange={(e) => onChangeProfile("username", e.target.value)}
+            />
+          </div>
+          <div>
+            <label>first name</label>
+            <input
+              id="username"
+              type="text"
+              value={profile.first_name || ''}
+              onChange={(e) => onChangeProfile("first_name", e.target.value)}
+            />
+          </div>
+          <div>
+            <label>last name</label>
+            <input
+              id="username"
+              type="text"
+              value={profile.last_name || ''}
+              onChange={(e) => onChangeProfile("last_name", e.target.value)}
+            />
+          </div>
 
-      <div>
-        <button
-          className="button primary block"
-          onClick={() => updateProfile({ username })}
-          disabled={loading}
-        >
-          {loading ? 'Loading ...' : 'Update'}
-        </button>
-      </div>
+          <div className={"updateButtonContainer"}>
+            <button
+              className="button primary block"
+              onClick={updateProfile}
+              disabled={loading}
+            >
+              {loading ? 'Loading ...' : 'Update'}
+            </button>
+          </div>
 
-      <div>
-        <button className="button block" onClick={() => supabase.auth.signOut()}>
-          Sign Out
-        </button>
-      </div>
+          <div>
+            <button className="button block" onClick={() => supabase.auth.signOut()}>
+              Sign Out
+            </button>
+          </div>
 
-    </div>
+        </div>
+      }
+    </>
   )
 }

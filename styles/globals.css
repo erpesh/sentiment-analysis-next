@@ -34,7 +34,9 @@ body,
   width: 100vw;
   overflow-x: hidden;
 }
-
+.updateButtonContainer {
+  margin: .75rem 0;
+}
 header {
 
   width: 100%;
@@ -269,6 +271,21 @@ label {
 }
 .rangeInput {
   width: 2.25rem;
+}
+.productImageContainer {
+  max-width: 260px;
+  height: auto;
+  border: 1px solid #1e1e1e;
+}
+.productImageContainer > img {
+  width: 100%;
+}
+.productData {
+  display: flex;
+  gap: 2rem;
+}
+.productInfo > h1 {
+  margin: 0;
 }
 input[type=text], input[type=search] {
   width: 100%;

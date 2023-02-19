@@ -1,8 +1,6 @@
 import {Database} from "../utils/database.types";
 import Link from "next/link";
 import Rating from '@mui/material/Rating';
-import {useEffect, useState} from "react";
-import {useSupabaseClient} from "@supabase/auth-helpers-react";
 import useRatingStyles from "../hooks/useRatingStyles";
 import useProductImage from "../hooks/useProductImage";
 
