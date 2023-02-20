@@ -8,21 +8,26 @@ type TKeyword = Database["public"]["Tables"]["keywords"]["Row"]
 function sentimentAnalysis(comment: string, keywords: TKeyword[]) {
   let commentCopy = `${comment}`.toLowerCase();
   let score = 0;
-  let totalKeywordsFound = 0;
 
-  // Iterate through the keywords
+  let foundKeywords: TKeyword[] = [];
+
   for (let i = 0; i < keywords.length; i++) {
     let keyword = keywords[i].keyword;
-    let value = keywords[i].weight;
 
-    // Check if the keyword is present in the comment
     if (commentCopy.indexOf(keyword) !== -1) {
-      // If so, add the value to the score
-      score += value;
-      totalKeywordsFound++;
+      foundKeywords.push(keywords[i]);
     }
   }
-  return score === 0 ? 0 : score / totalKeywordsFound;
+
+  for (let i = 0; i < foundKeywords.length; i++) {
+    let keyword = foundKeywords[i].keyword;
+    let value = foundKeywords[i].weight;
+
+    if (commentCopy.indexOf("not " + keyword) !== -1)
+      score += value * -1;
+    else score += value;
+  }
+  return score === 0 ? 0 : score / foundKeywords.length;
 }
 
 // fetches all keywords from the database
