@@ -61,7 +61,8 @@ export default function Product() {
         <span>Comments</span>
       </div>
       <div className={"leaveCommentContainer"}>
-          <span style={{display: "flex", gap: ".2rem", marginBottom: ".5rem"}}>{[1, 2, 3, 4, 5].map(num => {
+          <span style={{display: "flex", gap: ".2rem", marginBottom: ".5rem", fontSize: "18px", fontWeight: "bold"}}>
+            Rate the product: {[1, 2, 3, 4, 5].map(num => {
             return <div
               key={num}
               onClick={() => setRating(num)}
