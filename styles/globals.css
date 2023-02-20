@@ -287,7 +287,25 @@ label {
 .productInfo > h1 {
   margin: 0;
 }
-input[type=text], input[type=search] {
+.productInfo > p {
+  font-weight: bold;
+  font-size: 18px;
+}
+.productInfo > p > span {
+  color: var(--custom-color-brand);
+}
+.productRating {
+  font-size: 25px;
+}
+.commentContainer {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+}
+.leaveCommentContainer {
+  margin-bottom: 1rem;
+}
+input[type=text], input[type=search], textarea {
   width: 100%;
   border-radius: 4px;
   border: var(--custom-border);
@@ -300,6 +318,9 @@ input[type=text], input[type=search] {
   font-family: ui-sans-serif, sans-serif;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 100ms;
+}
+textarea {
+  height: 6rem;
 }
 input[type="checkbox"] {
   accent-color: var(--custom-color-brand);
@@ -342,7 +363,14 @@ input[type="search"]::-webkit-search-cancel-button{
   fill: var(--custom-color-brand);
 }
 /* Button */
-
+.deleteProductButton {
+  background: var(--custom-color-brand);
+  border: none;
+  padding: .5rem;
+  /*font-size: 18px;*/
+  font-weight: bold;
+  cursor: pointer;
+}
 .button {
   display: flex;
   justify-content: center;

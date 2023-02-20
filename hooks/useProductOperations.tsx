@@ -12,7 +12,7 @@ const useProductOperations = () => {
   const {productId} = router.query;
 
   const [product, setProduct] = useState<TProduct | null>(null);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState<number | null>(null);
   const [comment, setComment] = useState("");
 
   async function fetchData() {
@@ -60,7 +60,8 @@ const useProductOperations = () => {
         body: JSON.stringify(newComment)
       });
     // const json = await res.json();
-
+    setRating(null);
+    setComment("");
     fetchData()
   }
 

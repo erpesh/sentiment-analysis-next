@@ -4,7 +4,6 @@ import {supabase} from "../../../utils/supabase";
 import {Database} from "../../../utils/database.types";
 
 type TKeyword = Database["public"]["Tables"]["keywords"]["Row"]
-type TProduct = Database["public"]["Tables"]["products"]["Row"]
 
 function sentimentAnalysis(comment: string, keywords: TKeyword[]) {
   let commentCopy = `${comment}`.toLowerCase();
@@ -34,17 +33,6 @@ const getKeywords = async () => {
   return response.data as TKeyword[];
 }
 
-const updateProductRating = async (product_id: number, rating: number) => {
-  const response = await supabase
-    .from("products")
-    .update({rating: rating})
-    .eq("id", 2)
-    .select("id, created_at, name, comments(id, created_at, text, rating)")
-    .single();
-  console.log(response);
-  return response.data as TProduct;
-}
-
 export default async (
   req: NextApiRequest,
   res: NextApiResponse
@@ -53,19 +41,18 @@ export default async (
     const body = JSON.parse(req.body);
     try {
       // adds comment to the database
-      const {data, error, status} = await supabase
-        .from('comments')
-        .insert(body)
-        .select(`id, created_at, text, rating`)
-        .single();
+      console.log(body);
+      if (body.text) {
+        const keyWords = await getKeywords();
+        body.recommendation_rating = sentimentAnalysis(body.text, keyWords);
+        const {data, error, status} = await supabase
+          .from('comments')
+          .insert(body)
+          .select(`id, created_at, text, rating`)
+          .single();
 
-      // const keywords = await getKeywords();
-
-      // calculate sentiment rating
-      // const sentimentRating = sentimentAnalysis(data.text, keywords);
-      // const product = await updateProductRating(body.product_id, sentimentRating);
-
-      res.status(200).json(data);
+        res.status(200).json(data);
+      }
     } catch (e: any) {
       res.status(500).json(e.message);
     }

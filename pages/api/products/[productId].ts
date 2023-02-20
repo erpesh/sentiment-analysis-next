@@ -37,7 +37,6 @@ export default async (
         author:users(*)
        )`)
       .eq('id', productId)
-    console.log(error)
     res.status(200).json(data);
   }
 }

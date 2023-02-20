@@ -4,6 +4,7 @@ import useProfile from "../../hooks/useProfile";
 import useProductImage from "../../hooks/useProductImage";
 import Rating from "@mui/material/Rating";
 import useRatingStyles from "../../hooks/useRatingStyles";
+import {AiFillDelete, AiFillStar} from "react-icons/ai";
 
 export default function Product() {
 
@@ -22,6 +23,15 @@ export default function Product() {
   const classes = useRatingStyles();
   const imageUrl = useProductImage(product?.image_url);
 
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-UK", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
   if (!product) {
     return <p>Loading...</p>
   }
@@ -34,37 +44,52 @@ export default function Product() {
         </div>}
         <div className={"productInfo"}>
           <h1>{product.name}</h1>
-          {product.num_comments > 0 && <div>{product.rating}<Rating value={product.rating} precision={0.1} className={classes.root} readOnly/><span className={"cardNumComments"}>({product.num_comments})</span></div>}
-          <p>Price: &#163;{product.price}</p>
-          <p>Type: {product.type}</p>
-          {product.comments.length > 0 && <p>Rating: {product.comments.reduce((total, next) => total + next.rating, 0) / product.comments.length}</p>}
-          <button onClick={deleteProduct}>Delete Product</button>
+          {product.num_comments > 0 &&
+            <div className={"productRating"}>{product.rating}
+              <Rating value={product.rating} precision={0.1} className={classes.root} readOnly/>
+              <span className={"cardNumComments"}>
+                ({product.num_comments})
+              </span>
+            </div>}
+          <p>Price: <span>&#163;{product.price}</span></p>
+          <p>Type: <span>{product.type}</span></p>
+          {profile?.isAdmin &&
+            <button className={"deleteProductButton"} onClick={deleteProduct}>Delete Product</button>}
         </div>
       </div>
-      <h3>Comments</h3>
+      <div className={"filterType"} style={{marginBottom: "1rem"}}>
+        <span>Comments</span>
+      </div>
+      <div className={"leaveCommentContainer"}>
+          <span style={{display: "flex", gap: ".2rem", marginBottom: ".5rem"}}>{[1, 2, 3, 4, 5].map(num => {
+            return <div
+              key={num}
+              onClick={() => setRating(num)}
+              style={{cursor: "pointer"}}
+            >
+              <AiFillStar fill={rating && rating >= num ? "#24b47e" : "black"} size={24}/>
+            </div>
+          })}</span>
+        <textarea onChange={(e) => setComment(e.currentTarget.value)}/>
+        <button className={"button"} style={{width: "7rem", marginTop: ".75rem"}} onClick={addComment}>Comment</button>
+      </div>
       {product.comments?.map((comment) => {
-        return <div key={comment.id}>
-          <ul>
-            <li>{comment.author.first_name && comment.author.last_name ? comment.author.first_name + " " + comment.author.last_name : "NULL"}</li>
-            <li>{comment.text}</li>
-            <li>{comment.rating}</li>
-          </ul>
-          {(profile?.isAdmin || comment.author.id === userId) && <button onClick={() => deleteComment(comment.id)}>Delete</button>}
+        return <div className={"commentContainer"} key={comment.id}>
+          <div>
+            <span style={{fontSize: "20px", fontWeight: "bold"}}>
+              {comment.author.first_name &&
+              comment.author.last_name ? comment.author.first_name + " " + comment.author.last_name : "NULL"}
+            </span>
+            <div>
+              <Rating value={comment.rating} precision={1} className={classes.root} readOnly/>
+            </div>
+            <span>{formatDate(comment.created_at)}</span>
+            <p style={{fontSize: "19px"}}>{comment.text}</p>
+          </div>
+          {(profile?.isAdmin || comment.author.id === userId) &&
+            <button className={"deleteKeyword"} onClick={() => deleteComment(comment.id)}><AiFillDelete/></button>}
         </div>
       })}
-      <ul style={{display: "flex", gap: "1rem"}}>
-        {[1, 2, 3, 4, 5].map(num => {
-          return <div
-            key={num}
-            onClick={() => setRating(num)}
-            style={{color: rating === num ? "red" : "black", cursor: "pointer"}}
-          >
-            {num}
-          </div>
-        })}
-      </ul>
-      <input type={"text"} onChange={(e) => setComment(e.currentTarget.value)}/>
-      <button onClick={addComment}>Comment</button>
     </div>
   )
 }
