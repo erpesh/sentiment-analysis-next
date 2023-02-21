@@ -1,4 +1,4 @@
-import {Database} from "../utils/database.types";
+import {Database, ProductTypes} from "../utils/database.types";
 import useProfile from "../hooks/useProfile";
 import {useRouter} from 'next/router'
 import React, {useState} from "react";
@@ -84,12 +84,19 @@ export default function Keywords() {
               <input type={"text"} placeholder={"Name"} onChange={e => setName(e.currentTarget.value)}/>
             </div>
             <div className={"inputContainer"}>
-              <label>Type</label>
-              <input type={"text"} placeholder={"Type"} onChange={e => setType(e.currentTarget.value)}/>
-            </div>
-            <div className={"inputContainer"}>
               <label>Price</label>
               <input type={"text"} placeholder={"Price"} onChange={e => setPrice(e.currentTarget.value)}/>
+            </div>
+            <div className={"inputContainer"}>
+              <label>Type</label>
+              <select
+                name="productType"
+                onChange={(e) => setType(e.target.value)}
+              >
+                {ProductTypes.map(item => {
+                  return <option key={item.name} value={item.name}>{item.name}</option>
+                })}
+              </select>
             </div>
           </div>
           <div className={"fileInputContainer"}>

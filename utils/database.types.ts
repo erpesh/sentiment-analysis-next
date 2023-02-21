@@ -12,9 +12,21 @@ export interface TCheckbox {
 }
 
 export const ProductTypes = [
-  {name: "book", isChecked: false},
-  {name: "laptop", isChecked: false},
-  {name: "tool", isChecked: false}
+  {name: "Electronics", isChecked: false},
+  {name: "Home Appliances", isChecked: false},
+  {name: "Beauty Products", isChecked: false},
+  {name: "Clothing and Accessories", isChecked: false},
+  {name: "Toys and Games", isChecked: false},
+  {name: "Sports and Fitness", isChecked: false},
+  {name: "Books", isChecked: false},
+  {name: "Music and Movies", isChecked: false},
+  {name: "Home and Garden Tools", isChecked: false},
+  {name: "Kitchenware", isChecked: false},
+  {name: "Food and Beverages", isChecked: false},
+  {name: "Health and Wellness", isChecked: false},
+  {name: "Pet Supplies", isChecked: false},
+  {name: "Auto and Motorcycle", isChecked: false},
+  {name: "Office Supplies", isChecked: false}
 ];
 export const SortOptions = [
   {name: "rating", isChecked: false},
