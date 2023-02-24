@@ -43,7 +43,6 @@ export default function Keywords() {
   }
 
   async function deleteKeyword(keywordId: number) {
-    console.log(keywordId);
     const res = await fetch(`/api/keywords/${keywordId}`,
       {
         method: "DELETE",
