@@ -221,7 +221,12 @@ export default function Search() {
                     autoComplete={"off"}
                     type={"checkbox"}
                   />
-                  <span>{option.name}</span>
+                  <span
+                    style={{cursor: "pointer"}}
+                    onClick={() => checkboxOnchange(sortFilter, setSortFilter, index)}
+                  >
+                    {option.name}
+                  </span>
                 </li>
               })}
             </ul>
@@ -237,7 +242,11 @@ export default function Search() {
                     autoComplete={"off"}
                     type={"checkbox"}
                   />
-                  <span>{type.name}</span>
+                  <span
+                    style={{cursor: "pointer"}}
+                    onClick={() => checkboxOnchange(typeFilter, setTypeFilter, index)}
+                  >{type.name}
+                  </span>
                 </li>
               })}
             </ul>

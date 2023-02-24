@@ -29,15 +29,17 @@ export default function Keywords() {
   }, [])
 
   const addKeyword = async () => {
-    const res = await fetch(`/api/keywords`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          keyword: keyword,
-          weight: Number(weight),
-        })
-      });
-    fetchData();
+    if (keyword && weight && Number(weight)) {
+      const res = await fetch(`/api/keywords`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            keyword: keyword,
+            weight: Number(weight),
+          })
+        });
+      fetchData();
+    }
   }
 
   async function deleteKeyword(keywordId: number) {
