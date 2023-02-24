@@ -19,19 +19,21 @@ export default function Keywords() {
   const [type, setType] = useState("");
 
   const addProduct = async () => {
-    const res = await fetch(`/api/products`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name: name,
-          price: Number(price),
-          type: type,
-          image_url: imageUrl
-        })
-      });
-    const data = await res.json();
-    if (data.id)
-      router.push({pathname: `/products/${data.id}`});
+    if (price && name && Number(price)) {
+      const res = await fetch(`/api/products`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name: name,
+            price: Number(price),
+            type: type,
+            image_url: imageUrl
+          })
+        });
+      const data = await res.json();
+      if (data.id)
+        router.push({pathname: `/products/${data.id}`});
+    }
   }
 
   const uploadImage: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
