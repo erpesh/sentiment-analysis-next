@@ -134,7 +134,7 @@ export default function Search() {
         }} className={"searchInputContainer"}>
           <input type={"search"} placeholder={"Search for products"}
                  onChange={e => setSearchQuery(e.currentTarget.value)}/>
-          <button type={"submit"} className={"searchButton"}><AiOutlineSearch/></button>
+          <button  type={"submit"} className={"searchButton"}><AiOutlineSearch/></button>
         </form>
       </div>
       <div className={"searchContainer searchWrap"}>
@@ -251,9 +251,9 @@ export default function Search() {
               })}
             </ul>
           </div>
-          <div className={"filterSubmit"}>
-            <button onClick={submitSearch} className={"button"}>SUBMIT</button>
-          </div>
+          {/*<div className={"filterSubmit"}>*/}
+          {/*  <button onClick={submitSearch} className={"button"}>SUBMIT</button>*/}
+          {/*</div>*/}
         </aside>
       </div>
     </div>

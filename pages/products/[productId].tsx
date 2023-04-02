@@ -54,6 +54,8 @@ export default function Product() {
           <p>Price: <span>&#163;{product.price}</span></p>
           <p>Type: <span>{product.type}</span></p>
           {profile?.isAdmin &&
+            <p>Sentiment rating: <span>{product.recommendation_rating}</span></p>}
+          {profile?.isAdmin &&
             <button className={"deleteProductButton"} onClick={deleteProduct}>Delete Product</button>}
         </div>
       </div>

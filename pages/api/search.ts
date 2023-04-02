@@ -53,7 +53,6 @@ export default async (
 
   if (type) {
     type.split(",").forEach(item => {
-      console.log(item);
       supabaseQuery.eq("type", item)
     })
   }

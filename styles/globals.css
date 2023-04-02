@@ -60,6 +60,10 @@ header > nav > div > span > a {
   text-decoration: none;
   color: var(--color-white);
 }
+.firstPart > span > a:hover, .secondPart > span > a:hover, .secondPart > span:hover {
+  color: var(--custom-color-brand);
+  transition: .3s;
+}
 .firstPart > span:not(:last-child){
   padding-right: 1rem;
 }

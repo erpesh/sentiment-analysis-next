@@ -73,6 +73,13 @@ export default function Keywords() {
   }
 
 
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputPrice = event.target.value;
+    if (!inputPrice || inputPrice.match(/^\d+(\.\d{0,4})?$/)) {
+      setPrice(inputPrice);
+    }
+  };
+
   return (
     <>
       {profile && <div className="container">
@@ -83,17 +90,18 @@ export default function Keywords() {
           <div className={"keywordInputs"}>
             <div className={"inputContainer"}>
               <label>Name</label>
-              <input type={"text"} placeholder={"Name"} onChange={e => setName(e.currentTarget.value)}/>
+              <input type={"text"} placeholder={"Name"} onChange={e => setName(e.currentTarget.value)} required/>
             </div>
             <div className={"inputContainer"}>
               <label>Price</label>
-              <input type={"text"} placeholder={"Price"} onChange={e => setPrice(e.currentTarget.value)}/>
+              <input type={"text"} placeholder={"Price"} onChange={handlePriceChange} required/>
             </div>
             <div className={"inputContainer"}>
               <label>Type</label>
               <select
                 name="productType"
                 onChange={(e) => setType(e.target.value)}
+                required
               >
                 {ProductTypes.map(item => {
                   return <option key={item.name} value={item.name}>{item.name}</option>
@@ -108,6 +116,7 @@ export default function Keywords() {
               accept="image/*"
               onChange={uploadImage}
               disabled={uploading}
+              required
             />
           </div>
           <div className={"addKeywordBtn"}>
