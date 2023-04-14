@@ -9,6 +9,7 @@ export default function Account({ session }: { session: Session }) {
   const user = useUser()
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState<User | null>(null)
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     getProfile()
@@ -33,7 +34,7 @@ export default function Account({ session }: { session: Session }) {
         setProfile(data)
       }
     } catch (error) {
-      alert('Error loading user data!')
+      // alert('Error loading user data!')
       console.log(error)
     } finally {
       setLoading(false)
@@ -49,7 +50,6 @@ export default function Account({ session }: { session: Session }) {
       if (error) throw error
       alert('Profile updated!')
     } catch (error) {
-      alert('Error updating the data!')
       console.log(error)
     } finally {
       setLoading(false)
@@ -97,6 +97,16 @@ export default function Account({ session }: { session: Session }) {
               type="text"
               value={profile.last_name || ''}
               onChange={(e) => onChangeProfile("last_name", e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label>Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
             />
           </div>
 

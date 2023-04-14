@@ -25,6 +25,8 @@ function sentimentAnalysis(comment: string, keywords: TKeyword[]) {
 
     if (commentCopy.indexOf("not " + keyword) !== -1)
       score += value * -1;
+    else if (commentCopy.indexOf("not the " + keyword) !== -1)
+      score += value * -1;
     else score += value;
   }
   return score === 0 ? 0 : score / foundKeywords.length;

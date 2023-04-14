@@ -45,8 +45,8 @@ export default function Product() {
         <div className={"productInfo"}>
           <h1>{product.name}</h1>
           {product.num_comments > 0 &&
-            <div className={"productRating"}>{product.rating}
-              <Rating value={product.rating} precision={0.1} className={classes.root} readOnly/>
+            <div className={"productRating"}>{product.rating?.toFixed(1)}
+              <Rating value={Number(product.rating?.toFixed(1))} precision={0.1} className={classes.root} readOnly/>
               <span className={"cardNumComments"}>
                 ({product.num_comments})
               </span>
@@ -54,7 +54,7 @@ export default function Product() {
           <p>Price: <span>&#163;{product.price}</span></p>
           <p>Type: <span>{product.type}</span></p>
           {profile?.isAdmin &&
-            <p>Sentiment rating: <span>{product.recommendation_rating}</span></p>}
+            <p>Sentiment rating: <span>{!product.recommendation_rating ? 0 : product.recommendation_rating.toFixed(1)}</span></p>}
           {profile?.isAdmin &&
             <button className={"deleteProductButton"} onClick={deleteProduct}>Delete Product</button>}
         </div>
@@ -83,8 +83,11 @@ export default function Product() {
               {comment.author.first_name &&
               comment.author.last_name ? comment.author.first_name + " " + comment.author.last_name : "NULL"}
             </span>
-            <div>
+            <div style={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
               <Rating value={comment.rating} precision={1} className={classes.root} readOnly/>
+              {profile?.isAdmin && <span className={"cardType"} style={{fontSize: "16px", fontWeight: "bold"}}>Sentiment rating:
+                <span> {comment.recommendation_rating}</span>
+              </span>}
             </div>
             <span>{formatDate(comment.created_at)}</span>
             <p style={{fontSize: "19px"}}>{comment.text}</p>

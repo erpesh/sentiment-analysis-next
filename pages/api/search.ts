@@ -52,9 +52,11 @@ export default async (
   }
 
   if (type) {
-    type.split(",").forEach(item => {
-      supabaseQuery.eq("type", item)
-    })
+    // type.split(",").forEach(item => {
+    //   supabaseQuery.eq("type", item).or()
+    // })
+    const orQuery = type.split(",").map(item => `type.eq.${item}`).join(",");
+    supabaseQuery.or(orQuery)
   }
 
   const { data, error } = await supabaseQuery;

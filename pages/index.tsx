@@ -15,7 +15,9 @@ const Home: NextPage = () => {
             <Auth
               supabaseClient={supabase}
               appearance={{ theme: ThemeSupa }}
-              theme="dark" />
+              theme="dark"
+              providers={["google"]}
+            />
           </div>
         </div>
       ) : (
