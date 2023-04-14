@@ -100,16 +100,6 @@ export default function Account({ session }: { session: Session }) {
             />
           </div>
 
-          <div>
-            <label>Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.currentTarget.value)}
-            />
-          </div>
-
           <div className={"updateButtonContainer"}>
             <button
               className="button primary block"

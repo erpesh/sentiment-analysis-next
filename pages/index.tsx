@@ -16,7 +16,6 @@ const Home: NextPage = () => {
               supabaseClient={supabase}
               appearance={{ theme: ThemeSupa }}
               theme="dark"
-              providers={["google"]}
             />
           </div>
         </div>
