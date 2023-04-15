@@ -28,11 +28,13 @@ const useProductOperations = () => {
 
   async function deleteProduct(){
     if (!user) throw new Error("no user");
-    const res = await fetch(`/api/products/${productId}`,
-      {
-        method: "DELETE",
-      });
-    router.push({pathname: "/search"});
+    if (confirm("Are you sure you want to delete the product?")) {
+      const res = await fetch(`/api/products/${productId}`,
+        {
+          method: "DELETE",
+        });
+      router.push({pathname: "/search"});
+    }
   }
 
   async function deleteComment(commentId: number){
@@ -45,7 +47,10 @@ const useProductOperations = () => {
   }
 
   async function addComment() {
-    if (!user) throw new Error("no user");
+    if (!user) {
+      router.push("/");
+      return;
+    }
 
     const newComment = {
       text: comment,

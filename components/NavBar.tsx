@@ -30,7 +30,7 @@ const NavBar = () => {
         <div className={"secondPart"}>
           {user && profile ? <>
           <span>
-            <Link href={"/"}>{profile.username}</Link>
+            <Link href={"/"}>{profile.first_name}</Link>
           </span>
             <span onClick={logOut}>Log out</span>
           </> : <>
