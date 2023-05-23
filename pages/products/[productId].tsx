@@ -3,7 +3,6 @@ import useProductOperations from "../../hooks/useProductOperations";
 import useProfile from "../../hooks/useProfile";
 import useProductImage from "../../hooks/useProductImage";
 import Rating from "@mui/material/Rating";
-import useRatingStyles from "../../hooks/useRatingStyles";
 import {AiFillDelete, AiFillStar} from "react-icons/ai";
 
 export default function Product() {
@@ -20,7 +19,6 @@ export default function Product() {
   } = useProductOperations();
 
   const {profile} = useProfile();
-  const classes = useRatingStyles();
   const imageUrl = useProductImage(product?.image_url);
 
   function formatDate(dateString: string) {
@@ -46,7 +44,7 @@ export default function Product() {
           <h1>{product.name}</h1>
           {product.num_comments > 0 &&
             <div className={"productRating"}>{product.rating?.toFixed(1)}
-              <Rating value={Number(product.rating?.toFixed(1))} precision={0.1} className={classes.root} readOnly/>
+              <Rating value={Number(product.rating?.toFixed(1))} precision={0.1} readOnly/>
               <span className={"cardNumComments"}>
                 ({product.num_comments})
               </span>
@@ -84,7 +82,7 @@ export default function Product() {
               comment.author.last_name ? comment.author.first_name + " " + comment.author.last_name : "NULL"}
             </span>
             <div style={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-              <Rating value={comment.rating} precision={1} className={classes.root} readOnly/>
+              <Rating value={comment.rating} precision={1} readOnly/>
               {profile?.isAdmin && <span className={"cardType"} style={{fontSize: "16px", fontWeight: "bold"}}>Sentiment rating:
                 <span> {comment.recommendation_rating}</span>
               </span>}
